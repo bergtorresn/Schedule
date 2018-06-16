@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "126321995153",
+    "firebase_url": "https://schedule-a4cf9.firebaseio.com",
+    "project_id": "schedule-a4cf9",
+    "storage_bucket": "schedule-a4cf9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126321995153:android:dee3a14476876d7b",
+        "android_client_info": {
+          "package_name": "rtn.com.br.schedule"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126321995153-pcocojoa0emsn42papjhi1ck35jb4utv.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "126321995153-pcocojoa0emsn42papjhi1ck35jb4utv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQSpf83DNJcpiCcSwY9XZMkAIniqNBgE0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
