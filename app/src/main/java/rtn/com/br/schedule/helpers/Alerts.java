@@ -31,4 +31,44 @@ public class Alerts {
         alert.show();
 
     }
+
+    public static void alertConnection(Activity activity){
+
+        alert = new AlertDialog.Builder(activity);
+
+        alert.setTitle("Atenção");
+
+        alert.setMessage("Não foi possível se comunicar com o servidor, tente novamente.");
+
+        alert.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("Alert", "OK");
+            }
+        });
+
+        alert.create();
+        alert.show();
+
+    }
+
+    public static void alertInternet(Activity activity){
+
+        alert = new AlertDialog.Builder(activity);
+
+        alert.setTitle("Atenção");
+
+        alert.setMessage("Verifique sua conexão com a internet e tente novamente.");
+
+        alert.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("Alert", "OK");
+            }
+        });
+
+        alert.create();
+        alert.show();
+
+    }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.firebase.GetFirebaseAuth;
@@ -30,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseService.createUser(editTextEmail.getText().toString(),
                                 editTextPassword.getText().toString(), RegisterActivity.this);
+
             }
         });
     }
