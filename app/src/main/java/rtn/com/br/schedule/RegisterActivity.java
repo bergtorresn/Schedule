@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
 import rtn.com.br.schedule.firebase.FirebaseService;
-import rtn.com.br.schedule.firebase.GetFirebaseAuth;
 
 /**
  * Created by bergtorres on 17/06/2018

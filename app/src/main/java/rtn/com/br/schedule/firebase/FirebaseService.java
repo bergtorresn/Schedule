@@ -10,12 +10,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 
 import rtn.com.br.schedule.helpers.Alerts;
-import rtn.com.br.schedule.helpers.Connection;
+import rtn.com.br.schedule.helpers.InternetConnection;
+import rtn.com.br.schedule.models.User;
 
 /**
  * Created by bergtorres on 16/06/2018
  */
 public class FirebaseService {
+
+    /**
+     * FirebaseAuth
+     */
 
     /**
      * Método responsável por criar um novo usuário
@@ -25,9 +30,9 @@ public class FirebaseService {
      * @param activity
      */
     public static void createUser(String email, String password, final Activity activity) {
-        if (Connection.CheckInternetConnection(activity.getApplicationContext())) {
+        if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
-            GetFirebaseAuth.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
+            GetFirebase.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -42,7 +47,7 @@ public class FirebaseService {
                     });
         } else {
             Log.i("INTERNET", "NOT CONECTED");
-
+            Alerts.alertInternet(activity);
         }
     }
 
@@ -55,10 +60,10 @@ public class FirebaseService {
      * @param activity
      */
     public static void singIn(String email, String password, Activity activity) {
-        if (Connection.CheckInternetConnection(activity.getApplicationContext())) {
+        if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
 
-            GetFirebaseAuth.getFirebaseAuth().signInWithEmailAndPassword(email, password)
+            GetFirebase.getFirebaseAuth().signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -71,7 +76,8 @@ public class FirebaseService {
                         }
                     });
         } else {
-
+            Log.i("INTERNET", "NOT CONECTED");
+            Alerts.alertInternet(activity);
         }
     }
 
@@ -82,7 +88,7 @@ public class FirebaseService {
     public static void singOut() {
 
         try {
-            GetFirebaseAuth.getFirebaseAuth().signOut();
+            GetFirebase.getFirebaseAuth().signOut();
             Log.i("AUTH", "SUCESS SINGOUT");
         } catch (Exception e) {
             Log.i("AUTH", "ERROR SINGOUT " + e.getMessage());
@@ -98,7 +104,7 @@ public class FirebaseService {
      */
     public static boolean checkIfHaveUser() {
 
-        FirebaseUser user = GetFirebaseAuth.getFirebaseAuth().getCurrentUser();
+        FirebaseUser user = GetFirebase.getFirebaseAuth().getCurrentUser();
 
         if (user != null) {
             Log.i("AUTH", "HAVE USER");
@@ -106,6 +112,36 @@ public class FirebaseService {
         }
         Log.i("AUTH", "DONT HAVE USER");
         return false;
+    }
+
+
+
+    /**
+     * FirebaseDatabase
+     */
+
+    public static void createTask(User user, Activity activity){
+        if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
+            Log.i("INTERNET", "CONECTED");
+
+            GetFirebase.getFireDatabaseReferenceUsers().child(GetFirebase.getFirebaseAuth().getCurrentUser().getUid()).setValue(user);
+
+        } else {
+            Log.i("INTERNET", "NOT CONECTED");
+            Alerts.alertInternet(activity);
+        }
+    }
+
+    public static void editData(){
+
+    }
+
+    public static void removeData(){
+
+    }
+
+    public static void listData(){
+
     }
 
 

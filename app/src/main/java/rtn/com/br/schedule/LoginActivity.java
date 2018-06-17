@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import rtn.com.br.schedule.firebase.FirebaseService;
-import rtn.com.br.schedule.firebase.GetFirebaseAuth;
 
 /**
  * Created by bergtorres on 17/06/2018

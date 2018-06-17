@@ -6,7 +6,7 @@ import android.net.ConnectivityManager;
 /**
  * Created by bergtorres on 17/06/2018
  */
-public class Connection {
+public class InternetConnection {
 
     public static final boolean CheckInternetConnection(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
