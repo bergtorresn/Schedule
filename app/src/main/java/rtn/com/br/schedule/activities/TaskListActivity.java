@@ -1,9 +1,11 @@
-package rtn.com.br.schedule;
+package rtn.com.br.schedule.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class TasksActivity extends AppCompatActivity {
+import rtn.com.br.schedule.R;
+
+public class TaskListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

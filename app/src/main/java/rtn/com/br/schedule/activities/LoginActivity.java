@@ -1,4 +1,4 @@
-package rtn.com.br.schedule;
+package rtn.com.br.schedule.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
 
 /**

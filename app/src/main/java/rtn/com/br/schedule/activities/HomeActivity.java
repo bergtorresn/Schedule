@@ -1,11 +1,12 @@
-package rtn.com.br.schedule;
+package rtn.com.br.schedule.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import rtn.com.br.schedule.R;
 
 /**
  * Created by bergtorres on 17/06/2018
