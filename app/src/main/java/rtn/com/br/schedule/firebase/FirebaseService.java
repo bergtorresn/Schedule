@@ -9,12 +9,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 
+import rtn.com.br.schedule.helpers.Alerts;
+
 /**
  * Created by bergtorres on 16/06/2018
  */
 public class FirebaseService {
 
-    public static void createUser(String email, String password, Activity activity) {
+    public static void createUser(String email, String password, final Activity activity) {
 
         GetFirebaseAuth.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
@@ -22,9 +24,10 @@ public class FirebaseService {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.i("AUTH", "SUCESS CREATE USER");
+                            Alerts.genericAlert("SUCESS", "NEW USER", activity);
                         } else {
                             Log.i("AUTH", "ERROR CREATE USER " + task.getException().getMessage());
-
+                            Alerts.genericAlert("ERROR", task.getException().getMessage(), activity);
                         }
                     }
                 });
