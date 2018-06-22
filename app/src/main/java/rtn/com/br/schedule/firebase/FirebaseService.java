@@ -8,10 +8,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import rtn.com.br.schedule.helpers.Alerts;
 import rtn.com.br.schedule.helpers.InternetConnection;
 import rtn.com.br.schedule.models.User;
+import rtn.com.br.schedule.models.UserTask;
 
 /**
  * Created by bergtorres on 16/06/2018
@@ -23,13 +30,15 @@ public class FirebaseService {
      */
 
     /**
-     * Método responsável por criar um novo usuário
+     * Método responsável por criar um perfil de acesso com email e senha para o usuário,
+     * após criar o perfil, é chamado o método 'updateAuthUser' passando o parâmetro name para este método,
      *
+     * @param name
      * @param email
      * @param password
      * @param activity
      */
-    public static void createUser(String email, String password, final Activity activity) {
+    public static void createAuthUser(final String name, String email, String password, final Activity activity) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
             GetFirebase.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
@@ -38,7 +47,7 @@ public class FirebaseService {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Log.i("AUTH", "SUCESS CREATE USER");
-                                Alerts.genericAlert("SUCESS", "NEW USER", activity);
+                                updateAuthUser(name);
                             } else {
                                 Log.i("AUTH", "ERROR CREATE USER " + task.getException().getMessage());
                                 Alerts.genericAlert("ERROR", task.getException().getMessage(), activity);
@@ -49,6 +58,42 @@ public class FirebaseService {
             Log.i("INTERNET", "NOT CONECTED");
             Alerts.alertInternet(activity);
         }
+    }
+
+    /**
+     * Método responsável por atualizar o perfil do usuário com o Nome,
+     * após atualizar o perfil do usuário, é chamado o método 'createUserInBD'
+     *
+     * @param name
+     */
+    private static void updateAuthUser(String name) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+
+        getUser().updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("AUTH", "SUCCESS USER PROFILE UPDATE");
+                            createUserInDB();
+                        } else {
+                            Log.d("AUTH", "ERROR USER PROFILE UPDATE " + task.getException().getMessage());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Método responsável por criar no Database um nó para um novo usuário,
+     * o nó terá como râmo principal o Uid e como râmo filho o nome do usuário
+     */
+    private static void createUserInDB() {
+        User user = new User();
+        user.setName(getUser().getDisplayName());
+        GetFirebase.getFireDatabaseReferenceUsers().child(getUser().getUid()).setValue(user);
+        Log.d("AUTH", "SUCCESS CREATE USER IN DATABASE");
     }
 
 
@@ -97,10 +142,9 @@ public class FirebaseService {
 
 
     /**
-     * Método responsável por verificar se existe um usuáiro ativo no aplicativo,
+     * Método responsável por verificar se existe um usuáiro logado no aplicativo,
      *
-     * @return boolean, caso seja true o usuário será direcionado p/ tela de tarefas,
-     * caso seja false, o usuário será direcionado para tela inicial
+     * @return boolean
      */
     public static boolean checkIfHaveUser() {
 
@@ -114,17 +158,31 @@ public class FirebaseService {
         return false;
     }
 
+    /**
+     * Método responsável por retornar o usuário logado
+     *
+     * @return FirebaseUser
+     */
+    private static FirebaseUser getUser() {
+        FirebaseUser user = GetFirebase.getFirebaseAuth().getCurrentUser();
+
+        if (user != null) {
+            return user;
+        }
+
+        return null;
+    }
 
 
     /**
      * FirebaseDatabase
      */
 
-    public static void createTask(User user, Activity activity){
+    public static void createUserTask(UserTask userTask, Activity activity) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
-
-            GetFirebase.getFireDatabaseReferenceUsers().child(GetFirebase.getFirebaseAuth().getCurrentUser().getUid()).setValue(user);
+            GetFirebase.getFireDatabaseReferenceUsers().child(getUser().getUid()).child("tasks").push().setValue(userTask);
+            Log.i("TASK", "SUCCESS CREATE TASK");
 
         } else {
             Log.i("INTERNET", "NOT CONECTED");
@@ -132,16 +190,32 @@ public class FirebaseService {
         }
     }
 
-    public static void editData(){
+    public static void editTask() {
 
     }
 
-    public static void removeData(){
+    public static void deleteTask() {
 
     }
 
-    public static void listData(){
+    public static void listTasks(Activity activity) {
+        if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
+            GetFirebase.getFireDatabaseReferenceUsers().child(GetFirebase.getFirebaseAuth().getCurrentUser().getUid()).child("tasks").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        } else {
+            Log.i("INTERNET", "NOT CONECTED");
+            Alerts.alertInternet(activity);
+        }
     }
 
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import rtn.com.br.schedule.R;
+import rtn.com.br.schedule.firebase.FirebaseService;
 
 public class TaskListActivity extends AppCompatActivity {
 
@@ -28,6 +29,10 @@ public class TaskListActivity extends AppCompatActivity {
                 startActivity(new Intent(TaskListActivity.this, NewTaskActivity.class));
             }
         });
+
+
+      //  FirebaseService.listTasks(this);
+
 
 
     }

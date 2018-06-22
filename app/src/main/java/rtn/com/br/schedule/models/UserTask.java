@@ -1,19 +1,15 @@
 package rtn.com.br.schedule.models;
 
-
 import java.util.Date;
 
-/**
- * Created by bergtorres on 17/06/2018
- */
-public class Task {
+public class UserTask {
 
     private String title;
     private Date created_at;
     private String description;
     private String prioridade;
 
-    public Task() {}
+    public UserTask() {}
 
     public String getTitle() {
         return title;

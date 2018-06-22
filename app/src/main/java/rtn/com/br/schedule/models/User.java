@@ -1,6 +1,6 @@
 package rtn.com.br.schedule.models;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by bergtorres on 17/06/2018
@@ -8,7 +8,7 @@ import java.util.List;
 public class User {
 
     private String name;
-    private List<Task> tasks;
+    private ArrayList<UserTask> tasks;
 
     public User() {}
 
@@ -20,11 +20,11 @@ public class User {
         this.name = name;
     }
 
-    public List<Task> getTasks() {
+    public ArrayList<UserTask> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Task> tasks) {
+    public void setTasks(ArrayList<UserTask> tasks) {
         this.tasks = tasks;
     }
 }
