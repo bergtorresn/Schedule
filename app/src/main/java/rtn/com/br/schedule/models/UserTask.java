@@ -8,6 +8,7 @@ public class UserTask {
     private Date created_at;
     private String description;
     private Integer prioridade; // 1 - Alta, 2 - Média, 3 - Baixa
+    private boolean completed;
 
     public UserTask() {}
 
@@ -41,5 +42,13 @@ public class UserTask {
 
     public void setPrioridade(Integer prioridade) {
         this.prioridade = prioridade;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">Schedule</string>
     <string name="title_activity_login">LoginActivity</string>
+
     <string name="title_menu_home">Sair</string>
+
+    <string name="title_radiobutton_high">Alta</string>
+    <string name="title_radiobutton_average">Média</string>
+    <string name="title_radiobutton_low">Baixa</string>
+    <string name="title_task_name">Nome da tarefa</string>
+    <string name="title_task_description">Descrição</string>
+    <string name="title_task_priority">Prioridade</string>
+
+
+
 </resources>

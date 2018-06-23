@@ -10,21 +10,72 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_task_name"
+            android:textAlignment="center" />
+
         <EditText
             android:id="@+id/editText_name_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Nome da tarefa"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:scrollbars="vertical"/>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_task_description"
+            android:textAlignment="center" />
 
         <EditText
             android:id="@+id/editText_description_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Descrição da tarefa"
-            android:inputType="textPersonName" />
+            android:inputType="textMultiLine"
+            android:maxLines="4"
+            android:minLines="2"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/title_task_priority" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup_priority"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButton_high"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:text="@string/title_radiobutton_high" />
+
+            <RadioButton
+                android:id="@+id/radioButton_avarage"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:text="@string/title_radiobutton_average" />
+
+            <RadioButton
+                android:id="@+id/radioButton_low"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:text="@string/title_radiobutton_low" />
+        </RadioGroup>
 
         <Button
             android:id="@+id/btn_newTask_send"
