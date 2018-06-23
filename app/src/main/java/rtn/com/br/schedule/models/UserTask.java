@@ -7,7 +7,7 @@ public class UserTask {
     private String title;
     private Date created_at;
     private String description;
-    private String prioridade;
+    private Integer prioridade; // 1 - Alta, 2 - Média, 3 - Baixa
 
     public UserTask() {}
 
@@ -35,11 +35,11 @@ public class UserTask {
         this.description = description;
     }
 
-    public String getPrioridade() {
+    public Integer getPrioridade() {
         return prioridade;
     }
 
-    public void setPrioridade(String prioridade) {
+    public void setPrioridade(Integer prioridade) {
         this.prioridade = prioridade;
     }
 }

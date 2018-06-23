@@ -37,7 +37,7 @@ public class NewTaskActivity extends AppCompatActivity {
                 task.setTitle(editTextName.getText().toString());
                 task.setDescription(editTextDescription.getText().toString());
                 task.setCreated_at(new Date());
-                task.setPrioridade("Alta");
+                task.setPrioridade(1);
 
                 FirebaseService.createUserTask(task, NewTaskActivity.this);
             }

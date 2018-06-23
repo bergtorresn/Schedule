@@ -10,8 +10,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class GetFirebase {
 
     private static FirebaseAuth mFirebaseAuth;
-    private static FirebaseDatabase mFirebaseDatabase;
-    private static DatabaseReference mDatabaseReference;
     private static DatabaseReference mDatabaseReferencUsers;
 
     private GetFirebase(){
@@ -25,12 +23,6 @@ public class GetFirebase {
         return FirebaseAuth.getInstance();
     }
 
-    public static DatabaseReference getFireDatabaseReference(){
-        if (mDatabaseReference != null) {
-            return mDatabaseReference;
-        }
-        return FirebaseDatabase.getInstance().getReference();
-    }
 
     public static DatabaseReference getFireDatabaseReferenceUsers(){
         if (mDatabaseReferencUsers != null) {

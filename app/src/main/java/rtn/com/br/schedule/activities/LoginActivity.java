@@ -1,5 +1,6 @@
 package rtn.com.br.schedule.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseService.singIn(editTextEmail.getText().toString(),
                         editTextPassword.getText().toString(), LoginActivity.this);
+                startTaskListActivity();
             }
         });
     }
@@ -38,5 +40,10 @@ public class LoginActivity extends AppCompatActivity {
         buttonSend = findViewById(R.id.btn_login_send);
         editTextEmail = findViewById(R.id.editText_email_login);
         editTextPassword = findViewById(R.id.editText_pswrd_login);
+    }
+
+    private void startTaskListActivity() {
+        Intent intent = new Intent(LoginActivity.this, TaskListActivity.class);
+        startActivity(intent);
     }
 }
