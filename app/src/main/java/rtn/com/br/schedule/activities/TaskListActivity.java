@@ -4,46 +4,50 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import rtn.com.br.schedule.R;
+import rtn.com.br.schedule.adapters.UserTaskAdapter;
 import rtn.com.br.schedule.firebase.FirebaseService;
-import rtn.com.br.schedule.helpers.MyCallback;
+import rtn.com.br.schedule.helpers.Alerts;
+import rtn.com.br.schedule.helpers.CallbackDatabase;
 import rtn.com.br.schedule.models.UserTask;
 
 public class TaskListActivity extends AppCompatActivity {
 
-    private FloatingActionButton btn_newTask;
-    private ListView listview_tasks;
-    private List<String> userTasks;
-    private ArrayAdapter arrayAdapter;
+    private FloatingActionButton mFloatingActionButton;
+    private ListView mListView;
+    private List<UserTask> mUserTasks;
+    private UserTaskAdapter mUserTaskAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
 
-        btn_newTask = findViewById(R.id.btn_newTask);
-        listview_tasks = findViewById(R.id.listview_tasks);
+        mFloatingActionButton = findViewById(R.id.btn_newTask);
+        mListView = findViewById(R.id.listview_tasks);
 
-        btn_newTask.setOnClickListener(new View.OnClickListener() {
+        mUserTasks = new ArrayList<>();
+
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(TaskListActivity.this, NewTaskActivity.class));
             }
         });
-
-        userTasks = new ArrayList<>();
 
         fetchUserTasks();
 
@@ -71,15 +75,35 @@ public class TaskListActivity extends AppCompatActivity {
     }
 
     private void fetchUserTasks() {
-        FirebaseService.getTasks(this, new MyCallback() {
+        FirebaseService.getTasks(this, new CallbackDatabase() {
             @Override
-            public void onCallback(DataSnapshot dataSnapshot) {
+            public void onCallbackDataSnapshot(DataSnapshot dataSnapshot) {
+                mUserTasks.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserTask userTask = snapshot.getValue(UserTask.class);
-                    userTasks.add(userTask.getTitle());
-                    arrayAdapter = new ArrayAdapter(TaskListActivity.this, R.layout.list_usertask_layout, userTasks);
-                    listview_tasks.setAdapter(arrayAdapter);
+                    mUserTasks.add(userTask);
+                    configListView();
                 }
+            }
+
+            @Override
+            public void onCallbackDatabaseError(DatabaseError databaseError) {
+                Alerts.genericAlert("Atenção", "Não foi possível se comunicar como servidor, tente novamente.", TaskListActivity.this);
+            }
+        });
+    }
+
+    private void configListView() {
+
+        mUserTaskAdapter = new UserTaskAdapter(mUserTasks, this);
+        mListView.setAdapter(mUserTaskAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // UserTask userTask = mUserTasks.get(position);
+                Intent intent = new Intent(TaskListActivity.this, TaskDetailActivity.class);
+                startActivity(intent);
             }
         });
     }

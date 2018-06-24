@@ -1,6 +1,7 @@
 package rtn.com.br.schedule.helpers;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 
 /**
  * Created by bergtorres on 23/06/2018
@@ -8,7 +9,10 @@ import com.google.firebase.database.DataSnapshot;
  * https://stackoverflow.com/questions/47847694/how-to-return-datasnapshot-value-as-a-result-of-a-method
  *
  */
-public interface MyCallback {
+public interface CallbackDatabase {
 
-    void onCallback(DataSnapshot dataSnapshot);
+    void onCallbackDataSnapshot(DataSnapshot dataSnapshot);
+
+    void onCallbackDatabaseError(DatabaseError databaseError);
+
 }

@@ -44,7 +44,6 @@ public class UserTask {
         this.prioridade = prioridade;
     }
 
-
     public Integer getStatus() {
         return status;
     }
@@ -52,6 +51,5 @@ public class UserTask {
     public void setStatus(Integer status) {
         this.status = status;
     }
-
 
 }

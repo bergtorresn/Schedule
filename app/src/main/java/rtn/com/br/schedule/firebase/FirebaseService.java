@@ -13,12 +13,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import rtn.com.br.schedule.helpers.Alerts;
+import rtn.com.br.schedule.helpers.CallbackAuthResult;
 import rtn.com.br.schedule.helpers.InternetConnection;
-import rtn.com.br.schedule.helpers.MyCallback;
+import rtn.com.br.schedule.helpers.CallbackDatabase;
 import rtn.com.br.schedule.models.User;
 import rtn.com.br.schedule.models.UserTask;
 
@@ -94,7 +92,9 @@ public class FirebaseService {
     private static void createUserInDB() {
         User user = new User();
         user.setName(getUser().getDisplayName());
-        GetFirebase.getFireDatabaseReferenceUsers().child(getUser().getUid()).setValue(user);
+        GetFirebase.getFireDatabaseReferenceUsers()
+                .child(getUser().getUid())
+                .setValue(user);
         Log.d("AUTH", "SUCCESS CREATE USER IN DATABASE");
     }
 
@@ -105,8 +105,9 @@ public class FirebaseService {
      * @param email
      * @param password
      * @param activity
+     * @param callbackAuthResult
      */
-    public static void singIn(String email, String password, Activity activity) {
+    public static void singIn(String email, String password, Activity activity, final CallbackAuthResult callbackAuthResult) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
 
@@ -114,12 +115,7 @@ public class FirebaseService {
                     .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Log.i("AUTH", "SUCESS SINGIN");
-                            } else {
-                                Log.i("AUTH", "ERROR SINGIN " + task.getException().getMessage());
-
-                            }
+                            callbackAuthResult.onCallback(task);
                         }
                     });
         } else {
@@ -183,7 +179,11 @@ public class FirebaseService {
     public static void createUserTask(UserTask userTask, Activity activity) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
-            GetFirebase.getFireDatabaseReferenceUsers().child(getUser().getUid()).child("tasks").push().setValue(userTask);
+            GetFirebase.getFireDatabaseReferenceUsers()
+                    .child(getUser().getUid())
+                    .child("tasks")
+                    .push()
+                    .setValue(userTask);
             Log.i("TASK", "SUCCESS CREATE TASK");
 
         } else {
@@ -200,19 +200,22 @@ public class FirebaseService {
 
     }
 
-    public static void getTasks(Activity activity, final MyCallback callback) {
+    public static void getTasks(Activity activity, final CallbackDatabase callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
-            GetFirebase.getFireDatabaseReferenceUsers().child(getUser().getUid()).child("tasks").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    callback.onCallback(dataSnapshot);
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            GetFirebase.getFireDatabaseReferenceUsers()
+                    .child(getUser().getUid())
+                    .child("tasks")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            callback.onCallbackDataSnapshot(dataSnapshot);
+                        }
 
-                }
-            });
-
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            callback.onCallbackDatabaseError(databaseError);
+                        }
+                    });
         } else {
             Log.i("INTERNET", "NOT CONECTED");
             Alerts.alertInternet(activity);

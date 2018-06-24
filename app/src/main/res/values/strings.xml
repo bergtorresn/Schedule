@@ -24,4 +24,11 @@
     <string name="radiobutton_average">Média</string>
     <string name="radiobutton_low">Baixa</string>
 
+    <!-- ALERTS -->
+    <string name="alert_title_attetion">Atenção</string>
+    <string name="alert_msg">Não foi possível se conectar com a internet, tente novamente.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

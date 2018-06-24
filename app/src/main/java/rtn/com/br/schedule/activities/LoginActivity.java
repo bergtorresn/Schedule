@@ -7,8 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
+import rtn.com.br.schedule.helpers.Alerts;
+import rtn.com.br.schedule.helpers.CallbackAuthResult;
 
 /**
  * Created by bergtorres on 17/06/2018
@@ -30,13 +35,21 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseService.singIn(editTextEmail.getText().toString(),
-                        editTextPassword.getText().toString(), LoginActivity.this);
-                startTaskListActivity();
+                        editTextPassword.getText().toString(), LoginActivity.this, new CallbackAuthResult() {
+                            @Override
+                            public void onCallback(Task<AuthResult> resultTask) {
+                                if (resultTask.isSuccessful()) {
+                                    startTaskListActivity();
+                                } else {
+                                    Alerts.genericAlert("Atenção", "Não foi possível se conectar com a internet, tente novamente.", LoginActivity.this);
+                                }
+                            }
+                        });
             }
         });
     }
 
-    private void configUIElements(){
+    private void configUIElements() {
         buttonSend = findViewById(R.id.btn_login_send);
         editTextEmail = findViewById(R.id.editText_email_login);
         editTextPassword = findViewById(R.id.editText_pswrd_login);

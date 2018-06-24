@@ -9,20 +9,19 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public final class GetFirebase {
 
-    private static FirebaseAuth firebaseAuth;
-    private static DatabaseReference databaseReference;
+    private static FirebaseAuth mFirebaseAuth;
+    private static DatabaseReference mDatabaseReference;
 
     public static FirebaseAuth getFirebaseAuth(){
-        if (firebaseAuth != null) {
-            return firebaseAuth;
+        if (mFirebaseAuth != null) {
+            return mFirebaseAuth;
         }
         return FirebaseAuth.getInstance();
     }
 
-
     public static DatabaseReference getFireDatabaseReferenceUsers(){
-        if (databaseReference != null) {
-            return databaseReference;
+        if (mDatabaseReference != null) {
+            return mDatabaseReference;
         }
         return FirebaseDatabase.getInstance().getReference().child("Users");
     }
