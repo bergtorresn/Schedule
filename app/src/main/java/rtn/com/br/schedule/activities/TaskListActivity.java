@@ -99,8 +99,9 @@ public class TaskListActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // UserTask userTask = mUserTasks.get(position);
+                UserTask userTask = mUserTasks.get(position);
                 Intent intent = new Intent(TaskListActivity.this, TaskDetailActivity.class);
+                intent.putExtra("UserTask", userTask);
                 startActivity(intent);
             }
         });

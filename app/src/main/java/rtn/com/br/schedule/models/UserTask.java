@@ -1,8 +1,9 @@
 package rtn.com.br.schedule.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserTask {
+public class UserTask implements Serializable{
 
     private String title;
     private Date created_at;
