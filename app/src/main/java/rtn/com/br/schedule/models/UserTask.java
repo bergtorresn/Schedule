@@ -8,7 +8,7 @@ public class UserTask {
     private Date created_at;
     private String description;
     private Integer prioridade; // 1 - Alta, 2 - Média, 3 - Baixa
-    private boolean completed;
+    private Integer status; // 0 - Não Iniciada, 1 - Em Andamento, 2 - Cancelada, 3 - Concluída
 
     public UserTask() {}
 
@@ -44,11 +44,14 @@ public class UserTask {
         this.prioridade = prioridade;
     }
 
-    public boolean isCompleted() {
-        return completed;
+
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
+
+
 }

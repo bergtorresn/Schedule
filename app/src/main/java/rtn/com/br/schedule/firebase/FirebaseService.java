@@ -14,9 +14,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rtn.com.br.schedule.helpers.Alerts;
 import rtn.com.br.schedule.helpers.InternetConnection;
+import rtn.com.br.schedule.helpers.MyCallback;
 import rtn.com.br.schedule.models.User;
 import rtn.com.br.schedule.models.UserTask;
 
@@ -198,14 +200,13 @@ public class FirebaseService {
 
     }
 
-    public static void listTasks(Activity activity) {
+    public static void getTasks(Activity activity, final MyCallback callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
-            GetFirebase.getFireDatabaseReferenceUsers().child(GetFirebase.getFirebaseAuth().getCurrentUser().getUid()).child("tasks").addValueEventListener(new ValueEventListener() {
+            GetFirebase.getFireDatabaseReferenceUsers().child(getUser().getUid()).child("tasks").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                    callback.onCallback(dataSnapshot);
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 

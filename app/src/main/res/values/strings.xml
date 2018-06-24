@@ -1,16 +1,27 @@
 <resources>
     <string name="app_name">Schedule</string>
     <string name="title_activity_login">LoginActivity</string>
-
-    <string name="title_menu_home">Sair</string>
-
-    <string name="title_radiobutton_high">Alta</string>
-    <string name="title_radiobutton_average">Média</string>
-    <string name="title_radiobutton_low">Baixa</string>
     <string name="title_task_name">Nome da tarefa</string>
     <string name="title_task_description">Descrição</string>
     <string name="title_task_priority">Prioridade</string>
+    <string name="title_task_status">Status</string>
+    <string name="title_email">Email</string>
+    <string name="title_password">Senha</string>
+    <string name="title_name">Nome</string>
 
 
+    <!-- BUTTONS -->
+
+    <string name="btn_update">Atualizar</string>
+    <string name="btn_send">Enviar</string>
+    <string name="btn_singIn">Entrar</string>
+    <string name="btn_register">Cadastro</string>
+    <string name="btn_singOut">Sair</string>
+
+    <!-- RADIO BUTTONS -->
+
+    <string name="radiobutton_high">Alta</string>
+    <string name="radiobutton_average">Média</string>
+    <string name="radiobutton_low">Baixa</string>
 
 </resources>

@@ -7,26 +7,22 @@ import com.google.firebase.database.FirebaseDatabase;
 /**
  * Created by bergtorres on 16/06/2018
  */
-public class GetFirebase {
+public final class GetFirebase {
 
-    private static FirebaseAuth mFirebaseAuth;
-    private static DatabaseReference mDatabaseReferencUsers;
-
-    private GetFirebase(){
-
-    }
+    private static FirebaseAuth firebaseAuth;
+    private static DatabaseReference databaseReference;
 
     public static FirebaseAuth getFirebaseAuth(){
-        if (mFirebaseAuth != null) {
-            return mFirebaseAuth;
+        if (firebaseAuth != null) {
+            return firebaseAuth;
         }
         return FirebaseAuth.getInstance();
     }
 
 
     public static DatabaseReference getFireDatabaseReferenceUsers(){
-        if (mDatabaseReferencUsers != null) {
-            return mDatabaseReferencUsers;
+        if (databaseReference != null) {
+            return databaseReference;
         }
         return FirebaseDatabase.getInstance().getReference().child("Users");
     }

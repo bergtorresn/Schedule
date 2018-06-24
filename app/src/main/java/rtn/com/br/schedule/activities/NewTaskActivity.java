@@ -64,6 +64,7 @@ public class NewTaskActivity extends AppCompatActivity {
 
                 task.setTitle(editTextName.getText().toString());
                 task.setDescription(editTextDescription.getText().toString());
+                task.setStatus(0);
                 task.setCreated_at(new Date());
 
                 FirebaseService.createUserTask(task, NewTaskActivity.this);
