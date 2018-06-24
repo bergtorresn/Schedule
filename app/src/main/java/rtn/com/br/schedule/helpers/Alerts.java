@@ -3,7 +3,12 @@ package rtn.com.br.schedule.helpers;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
+
+import rtn.com.br.schedule.activities.NewTaskActivity;
+import rtn.com.br.schedule.activities.TaskListActivity;
+import rtn.com.br.schedule.firebase.FirebaseService;
 
 /**
  * Created by bergtorres on 17/06/2018
@@ -67,6 +72,33 @@ public class Alerts {
             }
         });
 
+        alert.create();
+        alert.show();
+
+    }
+
+    public static void alertSigOut(final Activity activity){
+
+        alert = new AlertDialog.Builder(activity);
+
+        alert.setMessage("Deseja sair da sua conta?");
+
+        alert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseService.singOut();
+                activity.startActivity(new Intent(activity, NewTaskActivity.class));
+            }
+        });
+
+        alert.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("Alert", "Não");
+            }
+        });
+
+        alert.setCancelable(false);
         alert.create();
         alert.show();
 

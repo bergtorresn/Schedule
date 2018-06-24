@@ -30,7 +30,6 @@ public class TaskListActivity extends AppCompatActivity {
     private FloatingActionButton mFloatingActionButton;
     private ListView mListView;
     private List<UserTask> mUserTasks;
-    private UserTaskAdapter mUserTaskAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +63,7 @@ public class TaskListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_home:
-                FirebaseService.singOut();
-                startHomeActivity();
+                Alerts.alertSigOut(TaskListActivity.this);
                 break;
             default:
                 break;
@@ -95,7 +93,7 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void configListView() {
 
-        mUserTaskAdapter = new UserTaskAdapter(mUserTasks, this);
+        UserTaskAdapter mUserTaskAdapter = new UserTaskAdapter(mUserTasks, this);
         mListView.setAdapter(mUserTaskAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -107,10 +105,4 @@ public class TaskListActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void startHomeActivity() {
-        Intent intent = new Intent(TaskListActivity.this, HomeActivity.class);
-        startActivity(intent);
-    }
-
 }
