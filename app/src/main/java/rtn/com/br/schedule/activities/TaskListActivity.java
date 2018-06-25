@@ -79,6 +79,7 @@ public class TaskListActivity extends AppCompatActivity {
                 mUserTasks.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserTask userTask = snapshot.getValue(UserTask.class);
+                    userTask.setUid(snapshot.getKey());
                     mUserTasks.add(userTask);
                     configListView();
                 }

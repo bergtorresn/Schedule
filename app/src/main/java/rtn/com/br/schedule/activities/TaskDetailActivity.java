@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +17,8 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import rtn.com.br.schedule.R;
+import rtn.com.br.schedule.firebase.FirebaseService;
+import rtn.com.br.schedule.helpers.Alerts;
 import rtn.com.br.schedule.models.UserTask;
 
 public class TaskDetailActivity extends AppCompatActivity {
@@ -22,6 +27,7 @@ public class TaskDetailActivity extends AppCompatActivity {
     private String mStatus[] = {"Não iniciada", "Em andamento", "Cancelada", "Concluída"};
     private ArrayAdapter mArrayAdapter;
     private Integer mStatusSelected;
+    private UserTask userTask;
 
     // UI Elements
     private Spinner mSpinner;
@@ -36,7 +42,7 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         // Get UserTask
         Intent intent = getIntent();
-        UserTask userTask = (UserTask) intent.getSerializableExtra("UserTask");
+        userTask = (UserTask) intent.getSerializableExtra("UserTask");
 
         // Config Adapter
         mArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mStatus);
@@ -70,8 +76,30 @@ public class TaskDetailActivity extends AppCompatActivity {
         mBtnUpdateTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("TASK", "ITEM SELECIONADO " + mStatusSelected);
+                userTask.setStatus(mStatusSelected);
+                FirebaseService.editTask(TaskDetailActivity.this, userTask);
             }
         });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_task_remove, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_task_detail:
+                Alerts.alertRemoverTask(TaskDetailActivity.this, userTask);
+                break;
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

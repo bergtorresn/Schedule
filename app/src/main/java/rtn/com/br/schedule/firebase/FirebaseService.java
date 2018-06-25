@@ -25,8 +25,9 @@ import rtn.com.br.schedule.models.UserTask;
  */
 public class FirebaseService {
 
-    /**
-     * FirebaseAuth
+    /** =============
+     *  FirebaseAuth
+     *  =============
      */
 
     /**
@@ -105,7 +106,7 @@ public class FirebaseService {
      * @param email
      * @param password
      * @param activity
-     * @param callbackAuthResult
+     * @param callbackAuthResult O método recebe como parâmetro a interface que implementa CallbackAuthResult
      */
     public static void singIn(String email, String password, Activity activity, final CallbackAuthResult callbackAuthResult) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
@@ -172,10 +173,16 @@ public class FirebaseService {
     }
 
 
-    /**
-     * FirebaseDatabase
+    /** ================
+     *  FirebaseDatabase
+     *  ================
      */
 
+    /**
+     * Método responsável por criar uma tarefa no nó do usuário atual
+     * @param userTask
+     * @param activity
+     */
     public static void createUserTask(UserTask userTask, Activity activity) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
@@ -192,14 +199,11 @@ public class FirebaseService {
         }
     }
 
-    public static void editTask() {
-
-    }
-
-    public static void deleteTask() {
-
-    }
-
+    /**
+     * Método responsável por solicitar as tarefas contidas no nó do usuário
+     * @param activity
+     * @param callback O método recebe como parâmetro a interface que implementa DataSnapshot
+     */
     public static void getTasks(Activity activity, final CallbackDatabase callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
@@ -223,4 +227,39 @@ public class FirebaseService {
     }
 
 
+    /**
+     * Método responsável por editar o status da tarefa
+     * @param activity
+     * @param userTask
+     */
+    public static void editTask(Activity activity, UserTask userTask) {
+        if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
+            GetFirebase.getFireDatabaseReferenceUsers()
+                    .child(getUser().getUid())
+                    .child("tasks")
+                    .child(userTask.getUid()).child("status")
+                    .setValue(userTask.getStatus());
+        } else {
+            Log.i("INTERNET", "NOT CONECTED");
+            Alerts.alertInternet(activity);
+        }
+    }
+
+    /**
+     * Método responsável por deletar a tarefa do nó do usuário
+     * @param activity
+     * @param userTask
+     */
+    public static void deleteTask(Activity activity, UserTask userTask) {
+        if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
+            GetFirebase.getFireDatabaseReferenceUsers()
+                    .child(getUser().getUid())
+                    .child("tasks")
+                    .child(userTask.getUid())
+                    .removeValue();
+        } else {
+            Log.i("INTERNET", "NOT CONECTED");
+            Alerts.alertInternet(activity);
+        }
+    }
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class UserTask implements Serializable{
 
+    private String uid;
     private String title;
     private Date created_at;
     private String description;
@@ -12,6 +13,14 @@ public class UserTask implements Serializable{
     private Integer status; // 0 - Não Iniciada, 1 - Em Andamento, 2 - Cancelada, 3 - Concluída
 
     public UserTask() {}
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getTitle() {
         return title;
@@ -52,5 +61,4 @@ public class UserTask implements Serializable{
     public void setStatus(Integer status) {
         this.status = status;
     }
-
 }
