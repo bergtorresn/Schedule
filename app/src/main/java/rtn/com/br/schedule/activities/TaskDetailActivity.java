@@ -1,8 +1,12 @@
 package rtn.com.br.schedule.activities;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +28,8 @@ public class TaskDetailActivity extends AppCompatActivity {
     private String mStatus[] = {"Não iniciada", "Em andamento", "Cancelada", "Concluída"};
     private ArrayAdapter mArrayAdapter;
     private Integer mStatusSelected;
-    private UserTask userTask;
+    private UserTask mUserTask;
+    private AlertDialog.Builder mAlertDialog;
 
     // UI Elements
     private Spinner mSpinner;
@@ -39,23 +44,23 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         // Get UserTask
         Intent intent = getIntent();
-        userTask = (UserTask) intent.getSerializableExtra("UserTask");
+        mUserTask = (UserTask) intent.getSerializableExtra("UserTask");
 
         // Config Adapter
         mArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mStatus);
 
         // Config TaskName
         mTaskName = findViewById(R.id.textView_task_name);
-        mTaskName.setText(userTask.getTitle());
+        mTaskName.setText(mUserTask.getTitle());
 
         // Config TaskDescription
         mTaskDescription = findViewById(R.id.textView_task_description);
-        mTaskDescription.setText(userTask.getDescription());
+        mTaskDescription.setText(mUserTask.getDescription());
 
         // Config Spinner
         mSpinner = findViewById(R.id.spinner_status);
         mSpinner.setAdapter(mArrayAdapter);
-        mSpinner.setSelection(userTask.getStatus());
+        mSpinner.setSelection(mUserTask.getStatus());
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -73,8 +78,8 @@ public class TaskDetailActivity extends AppCompatActivity {
         mBtnUpdateTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userTask.setStatus(mStatusSelected);
-                FirebaseService.editTask(TaskDetailActivity.this, userTask);
+                mUserTask.setStatus(mStatusSelected);
+                FirebaseService.editTask(TaskDetailActivity.this, mUserTask);
             }
         });
     }
@@ -91,12 +96,39 @@ public class TaskDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_task_detail:
-                Alerts.alertRemoverTask(TaskDetailActivity.this, userTask);
+                alertRemoveTask();
                 break;
             default:
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void alertRemoveTask(){
+
+        mAlertDialog = new AlertDialog.Builder(this);
+
+        mAlertDialog.setMessage("Deseja remover essa tarefa?");
+
+        mAlertDialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseService.deleteTask(TaskDetailActivity.this, mUserTask);
+                finish();
+            }
+        });
+
+        mAlertDialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("Alert", "Não");
+            }
+        });
+
+        mAlertDialog.setCancelable(false);
+        mAlertDialog.create();
+        mAlertDialog.show();
+
     }
 }

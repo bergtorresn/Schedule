@@ -34,26 +34,7 @@ public class Alerts {
             }
         });
 
-        alert.create();
-        alert.show();
-
-    }
-
-    public static void alertConnection(Activity activity){
-
-        alert = new AlertDialog.Builder(activity);
-
-        alert.setTitle("Atenção");
-
-        alert.setMessage("Não foi possível se comunicar com o servidor, tente novamente.");
-
-        alert.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.i("Alert", "OK");
-            }
-        });
-
+        alert.setCancelable(false);
         alert.create();
         alert.show();
 
@@ -71,59 +52,6 @@ public class Alerts {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.i("Alert", "OK");
-            }
-        });
-
-        alert.create();
-        alert.show();
-
-    }
-
-    public static void alertSigOut(final Activity activity){
-
-        alert = new AlertDialog.Builder(activity);
-
-        alert.setMessage("Deseja sair da sua conta?");
-
-        alert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                FirebaseService.singOut();
-                activity.startActivity(new Intent(activity, NewTaskActivity.class));
-            }
-        });
-
-        alert.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.i("Alert", "Não");
-            }
-        });
-
-        alert.setCancelable(false);
-        alert.create();
-        alert.show();
-
-    }
-
-    public static void alertRemoverTask(final Activity activity, final UserTask userTask){
-
-        alert = new AlertDialog.Builder(activity);
-
-        alert.setMessage("Deseja remover essa tarefa?");
-
-        alert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                FirebaseService.deleteTask(activity, userTask);
-                activity.finish();
-            }
-        });
-
-        alert.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.i("Alert", "Não");
             }
         });
 

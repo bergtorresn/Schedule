@@ -15,7 +15,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/title_task_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/textView_task_name"
@@ -26,7 +27,8 @@
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/textView8"
@@ -36,7 +38,8 @@
         android:layout_marginStart="8dp"
         android:text="@string/title_task_description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_task_name" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_task_name"
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/textView_task_description"
@@ -46,7 +49,8 @@
         android:layout_marginStart="8dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/textView10"
@@ -56,7 +60,8 @@
         android:layout_marginStart="8dp"
         android:text="@string/title_task_status"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_task_description" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_task_description"
+        android:textSize="18sp"/>
 
     <Spinner
         android:id="@+id/spinner_status"

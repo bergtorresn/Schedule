@@ -39,9 +39,9 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onCallback(Task<AuthResult> resultTask) {
                                 if (resultTask.isSuccessful()) {
-                                    startTaskListActivity();
+                                    startActivity(new Intent(LoginActivity.this, TaskListActivity.class));
                                 } else {
-                                    Alerts.genericAlert("Atenção", "Não foi possível se conectar com a internet, tente novamente.", LoginActivity.this);
+                                    Alerts.genericAlert("ERROR", resultTask.getException().getMessage(), LoginActivity.this);
                                 }
                             }
                         });
@@ -55,8 +55,4 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editText_pswrd_login);
     }
 
-    private void startTaskListActivity() {
-        Intent intent = new Intent(LoginActivity.this, TaskListActivity.class);
-        startActivity(intent);
-    }
 }

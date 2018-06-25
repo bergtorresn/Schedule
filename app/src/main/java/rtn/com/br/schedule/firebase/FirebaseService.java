@@ -31,28 +31,21 @@ public class FirebaseService {
      */
 
     /**
-     * Método responsável por criar um perfil de acesso com email e senha para o usuário,
-     * após criar o perfil, é chamado o método 'updateAuthUser' passando o parâmetro name para este método,
+     * Método responsável por criar um perfil de acesso com email e senha para o usuário
      *
-     * @param name
      * @param email
      * @param password
      * @param activity
+     * @param callbackAuthResult O método recebe como parâmetro a interface que implementa Task<AuthResult>
      */
-    public static void createAuthUser(final String name, String email, String password, final Activity activity) {
+    public static void createAuthUser(String email, String password, final Activity activity, final CallbackAuthResult callbackAuthResult) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
             GetFirebase.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Log.i("AUTH", "SUCESS CREATE USER");
-                                updateAuthUser(name);
-                            } else {
-                                Log.i("AUTH", "ERROR CREATE USER " + task.getException().getMessage());
-                                Alerts.genericAlert("ERROR", task.getException().getMessage(), activity);
-                            }
+                            callbackAuthResult.onCallback(task);
                         }
                     });
         } else {
@@ -60,45 +53,6 @@ public class FirebaseService {
             Alerts.alertInternet(activity);
         }
     }
-
-    /**
-     * Método responsável por atualizar o perfil do usuário com o Nome,
-     * após atualizar o perfil do usuário, é chamado o método 'createUserInBD'
-     *
-     * @param name
-     */
-    private static void updateAuthUser(String name) {
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .build();
-
-        getUser().updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("AUTH", "SUCCESS USER PROFILE UPDATE");
-                            createUserInDB();
-                        } else {
-                            Log.d("AUTH", "ERROR USER PROFILE UPDATE " + task.getException().getMessage());
-                        }
-                    }
-                });
-    }
-
-    /**
-     * Método responsável por criar no Database um nó para um novo usuário,
-     * o nó terá como râmo principal o Uid e como râmo filho o nome do usuário
-     */
-    private static void createUserInDB() {
-        User user = new User();
-        user.setName(getUser().getDisplayName());
-        GetFirebase.getFireDatabaseReferenceUsers()
-                .child(getUser().getUid())
-                .setValue(user);
-        Log.d("AUTH", "SUCCESS CREATE USER IN DATABASE");
-    }
-
 
     /**
      * Método responsável por efetuar o login no aplicativo
@@ -172,11 +126,48 @@ public class FirebaseService {
         return null;
     }
 
-
     /** ================
      *  FirebaseDatabase
      *  ================
      */
+
+    /**
+     * Método responsável por atualizar o perfil do usuário com o Nome,
+     * após atualizar o perfil do usuário, é chamado o método 'createUserInBD'
+     *
+     * @param name
+     */
+    public static void updateAuthUser(String name) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+
+        getUser().updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("AUTH", "SUCCESS USER PROFILE UPDATE");
+                            createUserInDB();
+                        } else {
+                            Log.d("AUTH", "ERROR USER PROFILE UPDATE " + task.getException().getMessage());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Método responsável por criar no Database um nó para um novo usuário,
+     * o nó terá como râmo principal o Uid e como râmo filho o nome do usuário
+     */
+    private static void createUserInDB() {
+        User user = new User();
+        user.setName(getUser().getDisplayName());
+        GetFirebase.getFireDatabaseReferenceUsers()
+                .child(getUser().getUid())
+                .setValue(user);
+        Log.d("AUTH", "SUCCESS CREATE USER IN DATABASE");
+    }
 
     /**
      * Método responsável por criar uma tarefa no nó do usuário atual

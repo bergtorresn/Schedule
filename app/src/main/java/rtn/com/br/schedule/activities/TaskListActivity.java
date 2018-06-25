@@ -1,5 +1,8 @@
 package rtn.com.br.schedule.activities;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +36,7 @@ public class TaskListActivity extends AppCompatActivity {
     private ListView mListView;
     private List<UserTask> mUserTasks;
     private UserTaskAdapter mUserTaskAdapter;
+    private AlertDialog.Builder alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,7 @@ public class TaskListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btn_menu_singout:
-                Alerts.alertSigOut(TaskListActivity.this);
+                alertSigOut();
                 break;
             case R.id.btn_menu_filter:
                 Collections.sort(mUserTasks, new Comparator<UserTask>() {
@@ -91,7 +95,7 @@ public class TaskListActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserTask userTask = snapshot.getValue(UserTask.class);
                     userTask.setUid(snapshot.getKey());
-                    if (!mUserTasks.contains(userTask)){
+                    if (!mUserTasks.contains(userTask)) {
                         mUserTasks.add(userTask);
                     }
                 }
@@ -121,12 +125,39 @@ public class TaskListActivity extends AppCompatActivity {
         });
     }
 
-    private void sortByPriority(){
+    private void sortByPriority() {
         Collections.sort(mUserTasks, new Comparator<UserTask>() {
             public int compare(UserTask one, UserTask other) {
                 return one.getPrioridade().compareTo(other.getPrioridade());
             }
         });
         configListView();
+    }
+
+    private void alertSigOut() {
+
+        alert = new AlertDialog.Builder(this);
+
+        alert.setMessage("Deseja sair da sua conta?");
+
+        alert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseService.singOut();
+                finish();
+            }
+        });
+
+        alert.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("Alert", "Não");
+            }
+        });
+
+        alert.setCancelable(false);
+        alert.create();
+        alert.show();
+
     }
 }
