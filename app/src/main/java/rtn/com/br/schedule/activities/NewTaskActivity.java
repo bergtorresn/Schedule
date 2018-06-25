@@ -29,12 +29,10 @@ public class NewTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
 
-        buttonNewTask = findViewById(R.id.btn_newTask_send);
         editTextName = findViewById(R.id.editText_name_task);
         editTextDescription = findViewById(R.id.editText_description_task);
         radioGroupPriority = findViewById(R.id.radioGroup_priority);
-
-
+        buttonNewTask = findViewById(R.id.btn_newTask_send);
 
         buttonNewTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,30 +45,30 @@ public class NewTaskActivity extends AppCompatActivity {
                 }
 
                 UserTask task = new UserTask();
-
-                switch (radioButtonSelected.getId()) {
-                    case R.id.radioButton_high:
-                        task.setPrioridade(1);
-                        break;
-                    case R.id.radioButton_avarage:
-                        task.setPrioridade(2);
-                        break;
-                    case R.id.radioButton_low:
-                        task.setPrioridade(3);
-                        break;
-                    default:
-                        break;
-                }
-
                 task.setTitle(editTextName.getText().toString());
                 task.setDescription(editTextDescription.getText().toString());
                 task.setStatus(0);
+                setPriority(task);
                 task.setCreated_at(new Date());
 
                 FirebaseService.createUserTask(task, NewTaskActivity.this);
             }
         });
+    }
 
-
+    private void setPriority(UserTask task){
+        switch (radioButtonSelected.getId()) {
+            case R.id.radioButton_high:
+                task.setPrioridade(1);
+                break;
+            case R.id.radioButton_avarage:
+                task.setPrioridade(2);
+                break;
+            case R.id.radioButton_low:
+                task.setPrioridade(3);
+                break;
+            default:
+                break;
+        }
     }
 }

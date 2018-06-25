@@ -16,6 +16,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import rtn.com.br.schedule.R;
@@ -30,6 +32,7 @@ public class TaskListActivity extends AppCompatActivity {
     private FloatingActionButton mFloatingActionButton;
     private ListView mListView;
     private List<UserTask> mUserTasks;
+    private UserTaskAdapter mUserTaskAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +65,16 @@ public class TaskListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_home:
+            case R.id.btn_menu_singout:
                 Alerts.alertSigOut(TaskListActivity.this);
+                break;
+            case R.id.btn_menu_filter:
+                Collections.sort(mUserTasks, new Comparator<UserTask>() {
+                    public int compare(UserTask one, UserTask other) {
+                        return one.getPrioridade().compareTo(other.getPrioridade());
+                    }
+                });
+                sortByPriority();
                 break;
             default:
                 break;
@@ -80,9 +91,11 @@ public class TaskListActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserTask userTask = snapshot.getValue(UserTask.class);
                     userTask.setUid(snapshot.getKey());
-                    mUserTasks.add(userTask);
-                    configListView();
+                    if (!mUserTasks.contains(userTask)){
+                        mUserTasks.add(userTask);
+                    }
                 }
+                configListView();
             }
 
             @Override
@@ -94,9 +107,9 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void configListView() {
 
-        UserTaskAdapter mUserTaskAdapter = new UserTaskAdapter(mUserTasks, this);
-        mListView.setAdapter(mUserTaskAdapter);
+        mUserTaskAdapter = new UserTaskAdapter(mUserTasks, this);
 
+        mListView.setAdapter(mUserTaskAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -106,5 +119,14 @@ public class TaskListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void sortByPriority(){
+        Collections.sort(mUserTasks, new Comparator<UserTask>() {
+            public int compare(UserTask one, UserTask other) {
+                return one.getPrioridade().compareTo(other.getPrioridade());
+            }
+        });
+        configListView();
     }
 }
