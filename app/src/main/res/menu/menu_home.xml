@@ -10,6 +10,7 @@
         android:title="Filtro"
         android:id="@+id/btn_menu_filter"
         app:showAsAction="always"
-        android:icon="@android:drawable/btn_radio"/>
+        android:icon="@mipmap/ic_filter">
+    </item>
 
 </menu>

@@ -13,7 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,11 +34,18 @@ import rtn.com.br.schedule.models.UserTask;
 
 public class TaskListActivity extends AppCompatActivity {
 
+    // - UI Elements
     private FloatingActionButton mFloatingActionButton;
     private ListView mListView;
-    private List<UserTask> mUserTasks;
+    private AlertDialog.Builder mAlert;
+
+    // - Properties
+    private String mArrayStatus[] = {"Não iniciada", "Em andamento", "Cancelada", "Concluída"};
+    private String mArrayPriority[] = {"Alta", "Média", "Baixa"};
+    private List<UserTask> mListUserTasks;
     private UserTaskAdapter mUserTaskAdapter;
-    private AlertDialog.Builder alert;
+    private Integer mPrioritySelected;
+    private Integer mStatusSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +55,7 @@ public class TaskListActivity extends AppCompatActivity {
         mFloatingActionButton = findViewById(R.id.btn_newTask);
         mListView = findViewById(R.id.listview_tasks);
 
-        mUserTasks = new ArrayList<>();
+        mListUserTasks = new ArrayList<>();
 
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +82,7 @@ public class TaskListActivity extends AppCompatActivity {
                 alertSigOut();
                 break;
             case R.id.btn_menu_filter:
-                sortByPriority();
+                alertFilter();
                 break;
             default:
                 break;
@@ -86,17 +95,16 @@ public class TaskListActivity extends AppCompatActivity {
         FirebaseService.getTasks(this, new CallbackDatabase() {
             @Override
             public void onCallbackDataSnapshot(DataSnapshot dataSnapshot) {
-                mUserTasks.clear();
+                mListUserTasks.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserTask userTask = snapshot.getValue(UserTask.class);
                     userTask.setUid(snapshot.getKey());
-                    if (!mUserTasks.contains(userTask)) {
-                        mUserTasks.add(userTask);
+                    if (!mListUserTasks.contains(userTask)) {
+                        mListUserTasks.add(userTask);
                     }
                 }
                 configListView();
             }
-
             @Override
             public void onCallbackDatabaseError(DatabaseError databaseError) {
                 Alerts.genericAlert("Atenção", "Não foi possível se comunicar como servidor, tente novamente.", TaskListActivity.this);
@@ -106,13 +114,13 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void configListView() {
 
-        mUserTaskAdapter = new UserTaskAdapter(mUserTasks, this);
+        mUserTaskAdapter = new UserTaskAdapter(mListUserTasks, this);
 
         mListView.setAdapter(mUserTaskAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                UserTask userTask = mUserTasks.get(position);
+                UserTask userTask = mListUserTasks.get(position);
                 Intent intent = new Intent(TaskListActivity.this, TaskDetailActivity.class);
                 intent.putExtra("UserTask", userTask);
                 startActivity(intent);
@@ -120,22 +128,19 @@ public class TaskListActivity extends AppCompatActivity {
         });
     }
 
-    private void sortByPriority() {
-        Collections.sort(mUserTasks, new Comparator<UserTask>() {
+    private void listViewSortby() {
+        Collections.sort(mListUserTasks, new Comparator<UserTask>() {
             public int compare(UserTask one, UserTask other) {
                 return one.getPriority().compareTo(other.getPriority());
             }
         });
-        configListView();
     }
 
     private void alertSigOut() {
 
-        alert = new AlertDialog.Builder(this);
-
-        alert.setMessage("Deseja sair da sua conta?");
-
-        alert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+        mAlert = new AlertDialog.Builder(this);
+        mAlert.setMessage("Deseja sair da sua conta?");
+        mAlert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FirebaseService.singOut();
@@ -143,16 +148,78 @@ public class TaskListActivity extends AppCompatActivity {
             }
         });
 
-        alert.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+        mAlert.setNegativeButton("Não", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.i("Alert", "Não");
             }
         });
 
-        alert.setCancelable(false);
-        alert.create();
-        alert.show();
+        mAlert.setCancelable(false);
+        mAlert.create();
+        mAlert.show();
 
+    }
+
+    private void alertFilter() {
+
+        // 1 - Pega o layout do Spinner
+        View mView = getLayoutInflater().inflate(R.layout.dialog_spinner_layout, null);
+        // 2 - Pega a instacia do Spinner
+        Spinner mSpinnerStatus = mView.findViewById(R.id.spinner_dialog_status);
+        Spinner mSpinnerProprity = mView.findViewById(R.id.spinner_dialog_priority);
+        // 3 - Adapter para ler a lista
+        ArrayAdapter<String> mAdapterStatus = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mArrayStatus);
+        ArrayAdapter<String> mAdapterPriority = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mArrayPriority);
+        // 4 - Configura o adapter para exibir em DropDown
+        mAdapterStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mAdapterPriority.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // 5 - Adiciona o adapter ao Spinner
+        mSpinnerStatus.setAdapter(mAdapterStatus);
+        mSpinnerProprity.setAdapter(mAdapterPriority);
+
+        mSpinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mStatusSelected = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mSpinnerProprity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mPrioritySelected = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mAlert = new AlertDialog.Builder(this);
+        mAlert.setTitle("Escolha um filtro");
+        mAlert.setNeutralButton("Aplicar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("SPINNER", "SELECTED " + mPrioritySelected + " " + mStatusSelected);
+            }
+        });
+
+        mAlert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("Alert", "Não");
+            }
+        });
+
+        mAlert.setView(mView); // Add Spinner no Alerta
+        mAlert.setCancelable(false);
+        mAlert.create();
+        mAlert.show();
     }
 }
