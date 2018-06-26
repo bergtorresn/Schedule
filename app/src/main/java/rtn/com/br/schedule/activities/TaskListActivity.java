@@ -1,6 +1,5 @@
 package rtn.com.br.schedule.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -113,7 +112,7 @@ public class TaskListActivity extends AppCompatActivity {
     }
 
     private void configListView() {
-
+        listViewSortbyPriority();
         mUserTaskAdapter = new UserTaskAdapter(mListUserTasks, this);
 
         mListView.setAdapter(mUserTaskAdapter);
@@ -128,7 +127,7 @@ public class TaskListActivity extends AppCompatActivity {
         });
     }
 
-    private void listViewSortby() {
+    private void listViewSortbyPriority() {
         Collections.sort(mListUserTasks, new Comparator<UserTask>() {
             public int compare(UserTask one, UserTask other) {
                 return one.getPriority().compareTo(other.getPriority());
