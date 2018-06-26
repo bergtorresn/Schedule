@@ -9,7 +9,7 @@ public class UserTask implements Serializable{
     private String title;
     private Date created_at;
     private String description;
-    private Integer priority; // 1 - Alta, 2 - Média, 3 - Baixa
+    private Integer priority; // 0 - Alta, 1 - Média, 2 - Baixa
     private Integer status; // 0 - Não Iniciada, 1 - Em Andamento, 2 - Cancelada, 3 - Concluída
 
     public UserTask() {}
