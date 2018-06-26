@@ -9,7 +9,7 @@ public class UserTask implements Serializable{
     private String title;
     private Date created_at;
     private String description;
-    private Integer prioridade; // 1 - Alta, 2 - Média, 3 - Baixa
+    private Integer priority; // 1 - Alta, 2 - Média, 3 - Baixa
     private Integer status; // 0 - Não Iniciada, 1 - Em Andamento, 2 - Cancelada, 3 - Concluída
 
     public UserTask() {}
@@ -46,12 +46,12 @@ public class UserTask implements Serializable{
         this.description = description;
     }
 
-    public Integer getPrioridade() {
-        return prioridade;
+    public Integer getPriority() {
+        return priority;
     }
 
-    public void setPrioridade(Integer prioridade) {
-        this.prioridade = prioridade;
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
 
     public Integer getStatus() {

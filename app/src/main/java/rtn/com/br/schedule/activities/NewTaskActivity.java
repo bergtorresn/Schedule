@@ -48,7 +48,7 @@ public class NewTaskActivity extends AppCompatActivity {
                 task.setTitle(editTextName.getText().toString());
                 task.setDescription(editTextDescription.getText().toString());
                 task.setStatus(0);
-                setPriority(task);
+                taskPriority(task);
                 task.setCreated_at(new Date());
 
                 FirebaseService.createUserTask(task, NewTaskActivity.this);
@@ -56,16 +56,16 @@ public class NewTaskActivity extends AppCompatActivity {
         });
     }
 
-    private void setPriority(UserTask task){
+    private void taskPriority(UserTask task){
         switch (radioButtonSelected.getId()) {
             case R.id.radioButton_high:
-                task.setPrioridade(1);
+                task.setPriority(1);
                 break;
             case R.id.radioButton_avarage:
-                task.setPrioridade(2);
+                task.setPriority(2);
                 break;
             case R.id.radioButton_low:
-                task.setPrioridade(3);
+                task.setPriority(3);
                 break;
             default:
                 break;

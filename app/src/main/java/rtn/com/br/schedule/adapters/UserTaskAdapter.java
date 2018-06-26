@@ -74,7 +74,7 @@ public class UserTaskAdapter extends BaseAdapter {
         mTaskStatus.setText("Status: " + status);
 
         String priority = "";
-        switch (userTask.getPrioridade()) {
+        switch (userTask.getPriority()) {
             case 1: priority = "Alta";
                 break;
             case 2: priority = "Média";

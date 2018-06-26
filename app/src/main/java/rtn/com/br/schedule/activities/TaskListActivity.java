@@ -73,11 +73,6 @@ public class TaskListActivity extends AppCompatActivity {
                 alertSigOut();
                 break;
             case R.id.btn_menu_filter:
-                Collections.sort(mUserTasks, new Comparator<UserTask>() {
-                    public int compare(UserTask one, UserTask other) {
-                        return one.getPrioridade().compareTo(other.getPrioridade());
-                    }
-                });
                 sortByPriority();
                 break;
             default:
@@ -128,7 +123,7 @@ public class TaskListActivity extends AppCompatActivity {
     private void sortByPriority() {
         Collections.sort(mUserTasks, new Comparator<UserTask>() {
             public int compare(UserTask one, UserTask other) {
-                return one.getPrioridade().compareTo(other.getPrioridade());
+                return one.getPriority().compareTo(other.getPriority());
             }
         });
         configListView();

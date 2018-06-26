@@ -14,6 +14,7 @@
 
     <string name="btn_update">Atualizar</string>
     <string name="btn_send">Enviar</string>
+    <string name="btn_save">Salvar</string>
     <string name="btn_singIn">Entrar</string>
     <string name="btn_register">Cadastro</string>
     <string name="btn_singOut">Sair</string>
