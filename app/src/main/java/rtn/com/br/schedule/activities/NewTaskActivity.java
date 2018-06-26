@@ -13,6 +13,7 @@ import java.util.Date;
 
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
+import rtn.com.br.schedule.helpers.Alerts;
 import rtn.com.br.schedule.models.User;
 import rtn.com.br.schedule.models.UserTask;
 
@@ -38,25 +39,35 @@ public class NewTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                UserTask task = new UserTask();
+
                 int idRadioButtonSelected = radioGroupPriority.getCheckedRadioButtonId();
 
                 if (idRadioButtonSelected > 0) {
                     radioButtonSelected = findViewById(idRadioButtonSelected);
+                    if (!editTextName.getText().toString().matches("")) {
+                        task.setTitle(editTextName.getText().toString());
+                        if (!editTextDescription.getText().toString().matches("")) {
+                            task.setDescription(editTextDescription.getText().toString());
+                            task.setStatus(0);
+                            taskPriority(task);
+                            task.setCreated_at(new Date());
+
+                            FirebaseService.createUserTask(task, NewTaskActivity.this);
+                        } else {
+                            Alerts.genericAlert("Atenção", "Informe uma descrição para esta tarefa.", NewTaskActivity.this);
+                        }
+                    } else {
+                        Alerts.genericAlert("Atenção", "Informe um nome para esta tarefa.", NewTaskActivity.this);
+                    }
+                } else {
+                    Alerts.genericAlert("Atenção", "Selecione uma opção de prioridade para esta tarefa.", NewTaskActivity.this);
                 }
-
-                UserTask task = new UserTask();
-                task.setTitle(editTextName.getText().toString());
-                task.setDescription(editTextDescription.getText().toString());
-                task.setStatus(0);
-                taskPriority(task);
-                task.setCreated_at(new Date());
-
-                FirebaseService.createUserTask(task, NewTaskActivity.this);
             }
         });
     }
 
-    private void taskPriority(UserTask task){
+    private void taskPriority(UserTask task) {
         switch (radioButtonSelected.getId()) {
             case R.id.radioButton_high:
                 task.setPriority(0);
