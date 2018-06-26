@@ -75,11 +75,11 @@ public class UserTaskAdapter extends BaseAdapter {
 
         String priority = "";
         switch (userTask.getPriority()) {
-            case 1: priority = "Alta";
+            case 0: priority = "Alta";
                 break;
-            case 2: priority = "Média";
+            case 1: priority = "Média";
                 break;
-            case 3: priority = "Baixa";
+            case 2: priority = "Baixa";
                 break;
             default:
                 break;

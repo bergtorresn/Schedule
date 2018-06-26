@@ -59,13 +59,13 @@ public class NewTaskActivity extends AppCompatActivity {
     private void taskPriority(UserTask task){
         switch (radioButtonSelected.getId()) {
             case R.id.radioButton_high:
-                task.setPriority(1);
+                task.setPriority(0);
                 break;
             case R.id.radioButton_avarage:
-                task.setPriority(2);
+                task.setPriority(1);
                 break;
             case R.id.radioButton_low:
-                task.setPriority(3);
+                task.setPriority(2);
                 break;
             default:
                 break;

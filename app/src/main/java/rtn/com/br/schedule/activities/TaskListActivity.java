@@ -104,6 +104,7 @@ public class TaskListActivity extends AppCompatActivity {
                 }
                 configListView();
             }
+
             @Override
             public void onCallbackDatabaseError(DatabaseError databaseError) {
                 Alerts.genericAlert("Atenção", "Não foi possível se comunicar como servidor, tente novamente.", TaskListActivity.this);
@@ -182,6 +183,7 @@ public class TaskListActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mStatusSelected = position;
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -205,7 +207,7 @@ public class TaskListActivity extends AppCompatActivity {
         mAlert.setNeutralButton("Aplicar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i("SPINNER", "SELECTED " + mPrioritySelected + " " + mStatusSelected);
+                sorteByPriorityAndStatus(mPrioritySelected, mStatusSelected);
             }
         });
 
@@ -221,4 +223,22 @@ public class TaskListActivity extends AppCompatActivity {
         mAlert.create();
         mAlert.show();
     }
+
+    private void sorteByPriorityAndStatus(Integer priority, Integer status) {
+        List<UserTask> arrayAux = new ArrayList<>();
+        arrayAux.addAll(mListUserTasks);
+        mListUserTasks.clear();
+        for (UserTask userTask : arrayAux) {
+            if (userTask.getPriority() == priority && userTask.getStatus() == status){
+                mListUserTasks.add(userTask);
+            }
+        }
+        for (UserTask userTask: arrayAux) {
+            if (!mListUserTasks.contains(userTask)){
+                mListUserTasks.add(userTask);
+            }
+        }
+        mUserTaskAdapter.notifyDataSetChanged();
+    }
+
 }
