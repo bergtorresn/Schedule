@@ -14,7 +14,7 @@ import com.google.firebase.auth.AuthResult;
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.Alerts;
-import rtn.com.br.schedule.helpers.CallbackAuthResult;
+import rtn.com.br.schedule.interfaces.CallbackAuthResult;
 
 /**
  * Created by bergtorres on 17/06/2018
@@ -48,8 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onCallback(Task<AuthResult> resultTask) {
                                 if (resultTask.isSuccessful()) {
                                     Log.i("AUTH", "SUCCESS - LOGIN");
-                                    startActivity(new Intent(LoginActivity.this, TaskListActivity.class));
-                                    finish();
+                                    startTaskListActivity();
                                 } else {
                                     Log.i("AUTH", "ERROR - LOGIN " + resultTask.getException().getMessage());
                                     Alerts.genericAlert("ERROR", resultTask.getException().getMessage(), LoginActivity.this);
@@ -60,5 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void startTaskListActivity() {
+        startActivity(new Intent(LoginActivity.this, TaskListActivity.class));
+        finish();
+    }
 
 }

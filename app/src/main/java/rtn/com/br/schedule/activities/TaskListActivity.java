@@ -22,12 +22,13 @@ import com.google.firebase.database.DatabaseError;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.adapters.UserTaskAdapter;
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.Alerts;
-import rtn.com.br.schedule.helpers.CallbackDataSnapshot;
+import rtn.com.br.schedule.interfaces.CallbackDataSnapshot;
 import rtn.com.br.schedule.models.UserTask;
 
 public class TaskListActivity extends AppCompatActivity {
@@ -39,7 +40,7 @@ public class TaskListActivity extends AppCompatActivity {
     // - Properties
     private String mArrayStatus[] = {"Não iniciada", "Em andamento", "Cancelada", "Concluída"};
     private String mArrayPriority[] = {"Alta", "Média", "Baixa"};
-    private ArrayList<UserTask> mListUserTasks = new ArrayList<>();
+    private List<UserTask> mListUserTasks;
     private UserTaskAdapter mUserTaskAdapter;
     private Integer mPrioritySelected;
     private Integer mStatusSelected;
@@ -49,6 +50,7 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
 
+        mListUserTasks = new ArrayList<>();
         mFloatingActionButton = findViewById(R.id.tasklist_buttonNewTask);
         mListView = findViewById(R.id.tasklist_listview);
 
@@ -90,7 +92,6 @@ public class TaskListActivity extends AppCompatActivity {
                 mListUserTasks.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserTask userTask = snapshot.getValue(UserTask.class);
-                    userTask.setUid(snapshot.getKey());
                     if (!mListUserTasks.contains(userTask)) {
                         mListUserTasks.add(userTask);
                     }
@@ -137,6 +138,7 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FirebaseService.singOut();
+                startActivity(new Intent(TaskListActivity.this, HomeActivity.class));
                 finish();
             }
         });

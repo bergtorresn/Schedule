@@ -3,10 +3,9 @@ package rtn.com.br.schedule.models;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UserTask implements Serializable{
+public class UserTask implements Serializable {
 
-    private String uid;
-    private String title;
+    private String name;
     private Date created_at;
     private String description;
     private Integer priority; // 0 - Alta, 1 - Média, 2 - Baixa
@@ -14,20 +13,12 @@ public class UserTask implements Serializable{
 
     public UserTask() {}
 
-    public String getUid() {
-        return uid;
+    public String getName() {
+        return name;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getCreated_at() {

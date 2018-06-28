@@ -8,16 +8,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import rtn.com.br.schedule.helpers.Alerts;
-import rtn.com.br.schedule.helpers.CallbackAuthResult;
-import rtn.com.br.schedule.helpers.CallbackDatabase;
+import rtn.com.br.schedule.interfaces.CallbackAuthResult;
+import rtn.com.br.schedule.interfaces.CallbackDatabase;
 import rtn.com.br.schedule.helpers.InternetConnection;
-import rtn.com.br.schedule.helpers.CallbackDataSnapshot;
+import rtn.com.br.schedule.interfaces.CallbackDataSnapshot;
 import rtn.com.br.schedule.models.User;
 import rtn.com.br.schedule.models.UserTask;
 
@@ -159,8 +158,7 @@ public class FirebaseService {
             Log.i("INTERNET", "CONECTED");
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child(getUser().getUid())
-                    .child("tasks")
-                    .push()
+                    .child("tasks").child(userTask.getName())
                     .setValue(userTask).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -212,7 +210,7 @@ public class FirebaseService {
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child(getUser().getUid())
                     .child("tasks")
-                    .child(userTask.getUid()).child("status")
+                    .child(userTask.getName()).child("status")
                     .setValue(userTask.getStatus());
         } else {
             Log.i("INTERNET", "NOT CONECTED");
@@ -230,7 +228,7 @@ public class FirebaseService {
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child(getUser().getUid())
                     .child("tasks")
-                    .child(userTask.getUid())
+                    .child(userTask.getName())
                     .removeValue();
         } else {
             Log.i("INTERNET", "NOT CONECTED");

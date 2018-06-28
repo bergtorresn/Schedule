@@ -1,16 +1,18 @@
 package rtn.com.br.schedule.models;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by bergtorres on 17/06/2018
  */
-public class User {
+public class User implements Serializable {
 
     private String name;
     private String email;
+    private List<UserTask> userTasks;
 
-    public User(){}
+    public User() {}
 
     public String getName() {
         return name;
@@ -26,5 +28,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<UserTask> getUserTasks() {
+        return userTasks;
+    }
+
+    public void setUserTasks(List<UserTask> userTasks) {
+        this.userTasks = userTasks;
     }
 }

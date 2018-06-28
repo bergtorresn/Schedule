@@ -1,4 +1,4 @@
-package rtn.com.br.schedule.helpers;
+package rtn.com.br.schedule.interfaces;
 
 import com.google.android.gms.tasks.Task;
 

@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void startTaskListActivity() {
         startActivity(new Intent(HomeActivity.this, TaskListActivity.class));
+        finish();
     }
 
 }

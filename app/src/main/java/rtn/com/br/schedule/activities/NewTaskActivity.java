@@ -17,7 +17,7 @@ import java.util.Date;
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.Alerts;
-import rtn.com.br.schedule.helpers.CallbackDatabase;
+import rtn.com.br.schedule.interfaces.CallbackDatabase;
 import rtn.com.br.schedule.models.UserTask;
 
 public class NewTaskActivity extends AppCompatActivity {
@@ -52,7 +52,7 @@ public class NewTaskActivity extends AppCompatActivity {
                 if (idRadioButtonSelected > 0) {
                     mRadioButtonSelected = findViewById(idRadioButtonSelected);
                     if (!taskName.matches("")) {
-                        userTask.setTitle(taskName);
+                        userTask.setName(taskName);
                         if (!taskDescription.matches("")) {
                             userTask.setDescription(taskDescription);
                             userTask.setStatus(0);

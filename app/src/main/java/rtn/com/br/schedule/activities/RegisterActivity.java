@@ -11,15 +11,12 @@ import android.widget.EditText;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
-import java.util.ArrayList;
-
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.Alerts;
-import rtn.com.br.schedule.helpers.CallbackAuthResult;
-import rtn.com.br.schedule.helpers.CallbackDatabase;
+import rtn.com.br.schedule.interfaces.CallbackAuthResult;
+import rtn.com.br.schedule.interfaces.CallbackDatabase;
 import rtn.com.br.schedule.models.User;
-import rtn.com.br.schedule.models.UserTask;
 
 /**
  * Created by bergtorres on 17/06/2018
@@ -65,8 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             @Override
                                             public void onCallback(Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    startActivity(new Intent(RegisterActivity.this, TaskListActivity.class));
-                                                    finish();
+                                                    startTaskListActivity();
                                                     Log.d("AUTH", "SUCCESS  - CREATE USER IN DB");
                                                 } else {
                                                     Log.d("AUTH", "ERROR - CREATE USER IN DB " + task.getException().getMessage());
@@ -90,5 +86,10 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void startTaskListActivity() {
+        startActivity(new Intent(RegisterActivity.this, TaskListActivity.class));
+        finish();
     }
 }

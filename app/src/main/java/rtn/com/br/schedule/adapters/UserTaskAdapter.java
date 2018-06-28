@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.helpers.UserTaskOutput;
@@ -17,7 +17,7 @@ import rtn.com.br.schedule.models.UserTask;
  */
 public class UserTaskAdapter extends BaseAdapter {
 
-    private ArrayList<UserTask> mUserTasks;
+    private List<UserTask> mUserTasks;
     private Activity mActivity;
 
     private TextView mTaskName;
@@ -25,7 +25,7 @@ public class UserTaskAdapter extends BaseAdapter {
     private TextView mTaskStatus;
     private TextView mTaskCreatedAt;
 
-    public UserTaskAdapter(ArrayList<UserTask> userTasks, Activity activity) {
+    public UserTaskAdapter(List<UserTask> userTasks, Activity activity) {
         mUserTasks = userTasks;
         mActivity = activity;
     }
@@ -58,7 +58,7 @@ public class UserTaskAdapter extends BaseAdapter {
         mTaskPriority = view.findViewById(R.id.usertaskadapter_textViewPriority);
         mTaskCreatedAt = view.findViewById(R.id.usertaskadapter_textViewCreatedAt);
 
-        mTaskName.setText("Nome da tarefa: " + userTask.getTitle());
+        mTaskName.setText("Nome da tarefa: " + userTask.getName());
         mTaskCreatedAt.setText(UserTaskOutput.dateOutput(userTask.getCreated_at()));
 
         mTaskStatus.setText(UserTaskOutput.statusOutput(userTask.getStatus()));

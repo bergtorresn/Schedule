@@ -43,7 +43,7 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mUserTask = (UserTask) intent.getSerializableExtra("UserTask");
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mStatus);
+        ArrayAdapter<String> arrayAdapter= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mStatus);
 
         mTaskName = findViewById(R.id.taskdetail_textViewName);
         mBtnUpdateTask = findViewById(R.id.taskdetail_buttonSend);
@@ -52,7 +52,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         mTaskPriority = findViewById(R.id.taskdetail_textViewPriority);
         mSpinner = findViewById(R.id.taskdetail_spinnerStatus);
 
-        mTaskName.setText(mUserTask.getTitle());
+        mTaskName.setText(mUserTask.getName());
         mTaskDescription.setText(mUserTask.getDescription());
         mSpinner.setAdapter(arrayAdapter);
         mSpinner.setSelection(mUserTask.getStatus());
@@ -125,6 +125,5 @@ public class TaskDetailActivity extends AppCompatActivity {
         builder.setCancelable(false);
         builder.create();
         builder.show();
-
     }
 }
