@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import rtn.com.br.schedule.R;
+import rtn.com.br.schedule.helpers.UserTaskOutput;
 import rtn.com.br.schedule.models.UserTask;
 
 /**
@@ -22,6 +23,7 @@ public class UserTaskAdapter extends BaseAdapter {
     private TextView mTaskName;
     private TextView mTaskPriority;
     private TextView mTaskStatus;
+    private TextView mTaskCreatedAt;
 
     public UserTaskAdapter(ArrayList<UserTask> userTasks, Activity activity) {
         mUserTasks = userTasks;
@@ -54,38 +56,13 @@ public class UserTaskAdapter extends BaseAdapter {
         mTaskName = view.findViewById(R.id.usertaskadapter_textViewName);
         mTaskStatus = view.findViewById(R.id.usertaskadapter_textViewStatus);
         mTaskPriority = view.findViewById(R.id.usertaskadapter_textViewPriority);
+        mTaskCreatedAt = view.findViewById(R.id.usertaskadapter_textViewCreatedAt);
 
         mTaskName.setText("Nome da tarefa: " + userTask.getTitle());
+        mTaskCreatedAt.setText(UserTaskOutput.dateOutput(userTask.getCreated_at()));
 
-        String status = "";
-        switch (userTask.getStatus()) {
-            case 0: status = "Não iniciada";
-                break;
-            case 1: status = "Em andamento";
-                break;
-            case 2: status = "Cancelada";
-                break;
-            case 3: status = "Concluída";
-                break;
-            default:
-                break;
-        }
-
-        mTaskStatus.setText("Status: " + status);
-
-        String priority = "";
-        switch (userTask.getPriority()) {
-            case 0: priority = "Alta";
-                break;
-            case 1: priority = "Média";
-                break;
-            case 2: priority = "Baixa";
-                break;
-            default:
-                break;
-        }
-
-        mTaskPriority.setText("Prioridade: " + priority);
+        mTaskStatus.setText(UserTaskOutput.statusOutput(userTask.getStatus()));
+        mTaskPriority.setText(UserTaskOutput.priorityOutput(userTask.getPriority()));
 
         return view;
     }

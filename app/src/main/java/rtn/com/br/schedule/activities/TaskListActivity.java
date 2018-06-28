@@ -219,8 +219,8 @@ public class TaskListActivity extends AppCompatActivity {
 
     /**
      * Método responsável por aplicar um filtro na lista de tarefas,
-     * o 1º loop verifica se a tarefa tem prioridade e status informados,caso tenha, a tarefa é add em uma lista
-     * o 2º loop adiciona as outras tarefas, fazendo uma ordenação por odem de add na lista.
+     * o 1º loop verifica se a tarefa tem prioridade e status igual ao informandos nos spinners,caso tenha, a tarefa é adicionada em uma lista
+     * o 2º loop adiciona as outras tarefas na lista.
      *
      * @param priority número da prioridade: 0 - Alta, 1 - Média, 2 - Baixa
      * @param status número do status: 0 - Não Iniciada, 1 - Em Andamento, 2 - Cancelada, 3 - Concluída

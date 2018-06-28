@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
+import rtn.com.br.schedule.helpers.UserTaskOutput;
 import rtn.com.br.schedule.models.UserTask;
 
 public class TaskDetailActivity extends AppCompatActivity {
@@ -32,6 +33,8 @@ public class TaskDetailActivity extends AppCompatActivity {
     private Button mBtnUpdateTask;
     private TextView mTaskName;
     private TextView mTaskDescription;
+    private TextView mTaskCreatedAt;
+    private TextView mTaskPriority;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +43,21 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mUserTask = (UserTask) intent.getSerializableExtra("UserTask");
-
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mStatus);
 
         mTaskName = findViewById(R.id.taskdetail_textViewName);
         mBtnUpdateTask = findViewById(R.id.taskdetail_buttonSend);
         mTaskDescription = findViewById(R.id.taskdetail_textViewDescription);
+        mTaskCreatedAt = findViewById(R.id.taskdetail_textViewCreatedAt);
+        mTaskPriority = findViewById(R.id.taskdetail_textViewPriority);
         mSpinner = findViewById(R.id.taskdetail_spinnerStatus);
 
         mTaskName.setText(mUserTask.getTitle());
         mTaskDescription.setText(mUserTask.getDescription());
         mSpinner.setAdapter(arrayAdapter);
         mSpinner.setSelection(mUserTask.getStatus());
+        mTaskCreatedAt.setText(UserTaskOutput.dateOutput(mUserTask.getCreated_at()));
+        mTaskPriority.setText(UserTaskOutput.priorityOutput(mUserTask.getPriority()));
 
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -95,7 +101,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void alertRemoveTask(){
+    private void alertRemoveTask() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
