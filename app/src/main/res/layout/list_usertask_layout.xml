@@ -5,21 +5,21 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView_title_userTaskList"
+        android:id="@+id/usertaskadapter_textViewName"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:textSize="18sp"
         android:text="Nome da tarefa: Minha tarefa"/>
 
     <TextView
-        android:id="@+id/textView_priority_userTaskList"
+        android:id="@+id/usertaskadapter_textViewPriority"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="16sp"
         android:text="Prioridade: Alta"/>
 
     <TextView
-        android:id="@+id/textView_status_userTaskList"
+        android:id="@+id/usertaskadapter_textViewStatus"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="16sp"

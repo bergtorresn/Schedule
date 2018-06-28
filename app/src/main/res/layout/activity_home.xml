@@ -41,13 +41,13 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/btn_nav_login"
+            android:id="@+id/home_buttonLogin"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="@string/btn_singIn" />
 
         <Button
-            android:id="@+id/btn_nav_register"
+            android:id="@+id/home_buttonRegister"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="@string/btn_register" />

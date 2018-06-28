@@ -41,6 +41,7 @@ public class FirebaseService {
     public static void createAuthUser(String email, String password, final Activity activity, final CallbackAuthResult callbackAuthResult) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
+
             GetFirebase.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -87,7 +88,7 @@ public class FirebaseService {
 
         try {
             GetFirebase.getFirebaseAuth().signOut();
-            Log.i("AUTH", "SUCESS SINGOUT");
+            Log.i("AUTH", "SUCCESS SINGOUT");
         } catch (Exception e) {
             Log.i("AUTH", "ERROR SINGOUT " + e.getMessage());
         }
@@ -126,11 +127,6 @@ public class FirebaseService {
         return null;
     }
 
-    /** ================
-     *  FirebaseDatabase
-     *  ================
-     */
-
     /**
      * Método responsável por atualizar o perfil do usuário com o Nome,
      * após atualizar o perfil do usuário, é chamado o método 'createUserInBD'
@@ -147,14 +143,19 @@ public class FirebaseService {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Log.d("AUTH", "SUCCESS USER PROFILE UPDATE");
-                            createUserInDB();
+                            Log.d("AUTH", "SUCCESS  - UPDATE USER");
+                            //  createUserInDB();
                         } else {
-                            Log.d("AUTH", "ERROR USER PROFILE UPDATE " + task.getException().getMessage());
+                            Log.d("AUTH", "ERROR - UPDATE USER " + task.getException().getMessage());
                         }
                     }
                 });
     }
+
+    /** ================
+     *  FirebaseDatabase
+     *  ================
+     */
 
     /**
      * Método responsável por criar no Database um nó para um novo usuário,

@@ -31,7 +31,7 @@
             tools:layout_editor_absoluteY="91dp" />
 
         <EditText
-            android:id="@+id/editText_name_register"
+            android:id="@+id/register_editTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -63,7 +63,7 @@
             tools:layout_editor_absoluteY="223dp" />
 
         <EditText
-            android:id="@+id/editText_email_register"
+            android:id="@+id/register_editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -95,7 +95,7 @@
             tools:layout_editor_absoluteY="139dp" />
 
         <EditText
-            android:id="@+id/editText_pswrd_register"
+            android:id="@+id/register_editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -103,7 +103,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_register_send"
+        android:id="@+id/register_buttonSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

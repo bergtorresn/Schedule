@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:title="Remover"
-        android:id="@+id/menu_task_detail"
+        android:id="@+id/taskdetail_buttonMenu_delete"
         app:showAsAction="always"
         android:icon="@android:drawable/ic_menu_delete"/>
 

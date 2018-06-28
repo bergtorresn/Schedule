@@ -7,53 +7,58 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.Alerts;
-import rtn.com.br.schedule.models.User;
 import rtn.com.br.schedule.models.UserTask;
 
 public class NewTaskActivity extends AppCompatActivity {
 
-    private Button buttonNewTask;
-    private EditText editTextName;
-    private EditText editTextDescription;
-    private RadioGroup radioGroupPriority;
-    private RadioButton radioButtonSelected;
+    private Button mButtonSend;
+    private EditText mEditTextName;
+    private EditText mEditTextDescription;
+    private RadioGroup mRadioGroupPriority;
+    private RadioButton mRadioButtonSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
 
-        editTextName = findViewById(R.id.editText_name_task);
-        editTextDescription = findViewById(R.id.editText_description_task);
-        radioGroupPriority = findViewById(R.id.radioGroup_priority);
-        buttonNewTask = findViewById(R.id.btn_newTask_send);
+        mEditTextName = findViewById(R.id.newtask_editTextTaskName);
+        mEditTextDescription = findViewById(R.id.newtask_editTextTaskDescription);
+        mRadioGroupPriority = findViewById(R.id.newtask_radioGroupPriority);
+        mButtonSend = findViewById(R.id.newtask_buttonSend);
 
-        buttonNewTask.setOnClickListener(new View.OnClickListener() {
+        mButtonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                UserTask task = new UserTask();
+                String taskName = mEditTextName.getText().toString();
+                String taskDescription = mEditTextDescription.getText().toString();
 
-                int idRadioButtonSelected = radioGroupPriority.getCheckedRadioButtonId();
+                UserTask userTask = new UserTask();
+
+                int idRadioButtonSelected = mRadioGroupPriority.getCheckedRadioButtonId();
 
                 if (idRadioButtonSelected > 0) {
-                    radioButtonSelected = findViewById(idRadioButtonSelected);
-                    if (!editTextName.getText().toString().matches("")) {
-                        task.setTitle(editTextName.getText().toString());
-                        if (!editTextDescription.getText().toString().matches("")) {
-                            task.setDescription(editTextDescription.getText().toString());
-                            task.setStatus(0);
-                            taskPriority(task);
-                            task.setCreated_at(new Date());
+                    mRadioButtonSelected = findViewById(idRadioButtonSelected);
+                    if (!taskName.matches("")) {
+                        userTask.setTitle(taskName);
+                        if (!taskDescription.matches("")) {
+                            userTask.setDescription(taskDescription);
+                            userTask.setStatus(0);
+                            taskPriority(userTask);
+                            userTask.setCreated_at(new Date());
 
-                            FirebaseService.createUserTask(task, NewTaskActivity.this);
+                            FirebaseService.createUserTask(userTask, NewTaskActivity.this);
+
+                            Toast.makeText(NewTaskActivity.this, "Tarefa criada com sucesso!", Toast.LENGTH_SHORT).show();
+                            finish();
                         } else {
                             Alerts.genericAlert("Atenção", "Informe uma descrição para esta tarefa.", NewTaskActivity.this);
                         }
@@ -68,14 +73,14 @@ public class NewTaskActivity extends AppCompatActivity {
     }
 
     private void taskPriority(UserTask task) {
-        switch (radioButtonSelected.getId()) {
-            case R.id.radioButton_high:
+        switch (mRadioButtonSelected.getId()) {
+            case R.id.newtask_radioButtonHigh:
                 task.setPriority(0);
                 break;
-            case R.id.radioButton_avarage:
+            case R.id.newtask_radioButtonAvarage:
                 task.setPriority(1);
                 break;
-            case R.id.radioButton_low:
+            case R.id.newtask_radioButtonLow:
                 task.setPriority(2);
                 break;
             default:

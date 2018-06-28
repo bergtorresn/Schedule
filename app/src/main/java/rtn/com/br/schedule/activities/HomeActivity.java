@@ -17,8 +17,9 @@ import rtn.com.br.schedule.firebase.FirebaseService;
  */
 public class HomeActivity extends AppCompatActivity {
 
-    private Button buttonLogin;
-    private Button buttonRegister;
+    // - UI Elements
+    private Button mButtonLogin;
+    private Button mButtonRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +30,17 @@ public class HomeActivity extends AppCompatActivity {
             startTaskListActivity();
         }
 
-        buttonLogin = findViewById(R.id.btn_nav_login);
-        buttonRegister = findViewById(R.id.btn_nav_register);
+        mButtonLogin = findViewById(R.id.home_buttonLogin);
+        mButtonRegister = findViewById(R.id.home_buttonRegister);
 
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
+        mButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, LoginActivity.class));
             }
         });
 
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
+        mButtonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, RegisterActivity.class));
@@ -48,8 +49,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void startTaskListActivity() {
-        Intent intent = new Intent(HomeActivity.this, TaskListActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(HomeActivity.this, TaskListActivity.class));
     }
 
 }

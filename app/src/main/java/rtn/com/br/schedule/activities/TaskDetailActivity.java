@@ -1,6 +1,5 @@
 package rtn.com.br.schedule.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,17 +18,14 @@ import android.widget.TextView;
 
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
-import rtn.com.br.schedule.helpers.Alerts;
 import rtn.com.br.schedule.models.UserTask;
 
 public class TaskDetailActivity extends AppCompatActivity {
 
     // Propertiers
     private String mStatus[] = {"Não iniciada", "Em andamento", "Cancelada", "Concluída"};
-    private ArrayAdapter mArrayAdapter;
     private Integer mStatusSelected;
     private UserTask mUserTask;
-    private AlertDialog.Builder mAlertDialog;
 
     // UI Elements
     private Spinner mSpinner;
@@ -42,25 +38,21 @@ public class TaskDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
 
-        // Get UserTask
         Intent intent = getIntent();
         mUserTask = (UserTask) intent.getSerializableExtra("UserTask");
 
-        // Config Adapter
-        mArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mStatus);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mStatus);
 
-        // Config TaskName
-        mTaskName = findViewById(R.id.textView_task_name);
+        mTaskName = findViewById(R.id.taskdetail_textViewName);
+        mBtnUpdateTask = findViewById(R.id.taskdetail_buttonSend);
+        mTaskDescription = findViewById(R.id.taskdetail_textViewDescription);
+        mSpinner = findViewById(R.id.taskdetail_spinnerStatus);
+
         mTaskName.setText(mUserTask.getTitle());
-
-        // Config TaskDescription
-        mTaskDescription = findViewById(R.id.textView_task_description);
         mTaskDescription.setText(mUserTask.getDescription());
-
-        // Config Spinner
-        mSpinner = findViewById(R.id.spinner_status);
-        mSpinner.setAdapter(mArrayAdapter);
+        mSpinner.setAdapter(arrayAdapter);
         mSpinner.setSelection(mUserTask.getStatus());
+
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -73,8 +65,6 @@ public class TaskDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Config ButtonUpdate
-        mBtnUpdateTask = findViewById(R.id.btn_task_update);
         mBtnUpdateTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,14 +78,14 @@ public class TaskDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_task, menu);
+        menuInflater.inflate(R.menu.menu_taskdetail, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_task_detail:
+            case R.id.taskdetail_buttonMenu_delete:
                 alertRemoveTask();
                 break;
             default:
@@ -107,11 +97,11 @@ public class TaskDetailActivity extends AppCompatActivity {
 
     private void alertRemoveTask(){
 
-        mAlertDialog = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        mAlertDialog.setMessage("Deseja remover essa tarefa?");
+        builder.setMessage("Deseja remover essa tarefa?");
 
-        mAlertDialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FirebaseService.deleteTask(TaskDetailActivity.this, mUserTask);
@@ -119,16 +109,16 @@ public class TaskDetailActivity extends AppCompatActivity {
             }
         });
 
-        mAlertDialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.i("Alert", "Não");
             }
         });
 
-        mAlertDialog.setCancelable(false);
-        mAlertDialog.create();
-        mAlertDialog.show();
+        builder.setCancelable(false);
+        builder.create();
+        builder.show();
 
     }
 }

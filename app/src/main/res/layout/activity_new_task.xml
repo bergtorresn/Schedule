@@ -36,7 +36,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editText_name_task"
+                android:id="@+id/newtask_editTextTaskName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -52,7 +52,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editText_description_task"
+                android:id="@+id/newtask_editTextTaskDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -70,27 +70,27 @@
                 android:textSize="18sp" />
 
             <RadioGroup
-                android:id="@+id/radioGroup_priority"
+                android:id="@+id/newtask_radioGroupPriority"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioButton_high"
+                    android:id="@+id/newtask_radioButtonHigh"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:text="@string/radiobutton_high" />
 
                 <RadioButton
-                    android:id="@+id/radioButton_avarage"
+                    android:id="@+id/newtask_radioButtonAvarage"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:text="@string/radiobutton_average" />
 
                 <RadioButton
-                    android:id="@+id/radioButton_low"
+                    android:id="@+id/newtask_radioButtonLow"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -98,7 +98,7 @@
             </RadioGroup>
 
             <Button
-                android:id="@+id/btn_newTask_send"
+                android:id="@+id/newtask_buttonSend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_save" />

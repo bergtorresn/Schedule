@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/btn_menu_singout"
+    <item android:id="@+id/tasklist_buttonMenu_singout"
         android:title="@string/btn_singOut"
         app:showAsAction="never"/>
 
     <item
         android:title="Filtro"
-        android:id="@+id/btn_menu_filter"
+        android:id="@+id/tasklist_buttonMenu_filter"
         app:showAsAction="always"
         android:icon="@mipmap/ic_filter">
     </item>
