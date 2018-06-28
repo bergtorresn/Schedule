@@ -27,7 +27,7 @@ import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.adapters.UserTaskAdapter;
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.Alerts;
-import rtn.com.br.schedule.helpers.CallbackDatabase;
+import rtn.com.br.schedule.helpers.CallbackDataSnapshot;
 import rtn.com.br.schedule.models.UserTask;
 
 public class TaskListActivity extends AppCompatActivity {
@@ -84,7 +84,7 @@ public class TaskListActivity extends AppCompatActivity {
     }
 
     private void fetchUserTasks() {
-        FirebaseService.getTasks(this, new CallbackDatabase() {
+        FirebaseService.getTasks(this, new CallbackDataSnapshot() {
             @Override
             public void onCallbackDataSnapshot(DataSnapshot dataSnapshot) {
                 mListUserTasks.clear();

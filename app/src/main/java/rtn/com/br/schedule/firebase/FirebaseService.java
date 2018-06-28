@@ -15,8 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import rtn.com.br.schedule.helpers.Alerts;
 import rtn.com.br.schedule.helpers.CallbackAuthResult;
-import rtn.com.br.schedule.helpers.InternetConnection;
 import rtn.com.br.schedule.helpers.CallbackDatabase;
+import rtn.com.br.schedule.helpers.InternetConnection;
+import rtn.com.br.schedule.helpers.CallbackDataSnapshot;
 import rtn.com.br.schedule.models.User;
 import rtn.com.br.schedule.models.UserTask;
 
@@ -36,9 +37,9 @@ public class FirebaseService {
      * @param email
      * @param password
      * @param activity
-     * @param callbackAuthResult O método recebe como parâmetro a interface que implementa Task<AuthResult>
+     * @param callback O método recebe como parâmetro a interface que implementa Task<AuthResult>
      */
-    public static void createAuthUser(String email, String password, final Activity activity, final CallbackAuthResult callbackAuthResult) {
+    public static void createAuthUser(String email, String password, final Activity activity, final CallbackAuthResult callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
 
@@ -46,7 +47,7 @@ public class FirebaseService {
                     .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            callbackAuthResult.onCallback(task);
+                            callback.onCallback(task);
                         }
                     });
         } else {
@@ -61,9 +62,9 @@ public class FirebaseService {
      * @param email
      * @param password
      * @param activity
-     * @param callbackAuthResult O método recebe como parâmetro a interface que implementa CallbackAuthResult
+     * @param callback O método recebe como parâmetro a interface que implementa CallbackAuthResult
      */
-    public static void singIn(String email, String password, Activity activity, final CallbackAuthResult callbackAuthResult) {
+    public static void singIn(String email, String password, Activity activity, final CallbackAuthResult callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
 
@@ -71,7 +72,7 @@ public class FirebaseService {
                     .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            callbackAuthResult.onCallback(task);
+                            callback.onCallback(task);
                         }
                     });
         } else {
@@ -127,31 +128,6 @@ public class FirebaseService {
         return null;
     }
 
-    /**
-     * Método responsável por atualizar o perfil do usuário com o Nome,
-     * após atualizar o perfil do usuário, é chamado o método 'createUserInBD'
-     *
-     * @param name
-     */
-    public static void updateAuthUser(String name) {
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .build();
-
-        getUser().updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("AUTH", "SUCCESS  - UPDATE USER");
-                            //  createUserInDB();
-                        } else {
-                            Log.d("AUTH", "ERROR - UPDATE USER " + task.getException().getMessage());
-                        }
-                    }
-                });
-    }
-
     /** ================
      *  FirebaseDatabase
      *  ================
@@ -161,13 +137,16 @@ public class FirebaseService {
      * Método responsável por criar no Database um nó para um novo usuário,
      * o nó terá como râmo principal o Uid e como râmo filho o nome do usuário
      */
-    private static void createUserInDB() {
-        User user = new User();
-        user.setName(getUser().getDisplayName());
+    public static void createUserInDB(User user, final CallbackDatabase callback) {
         GetFirebase.getFireDatabaseReferenceUsers()
                 .child(getUser().getUid())
-                .setValue(user);
-        Log.d("AUTH", "SUCCESS CREATE USER IN DATABASE");
+                .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                callback.onCallback(task);
+
+            }
+        });
     }
 
     /**
@@ -175,15 +154,19 @@ public class FirebaseService {
      * @param userTask
      * @param activity
      */
-    public static void createUserTask(UserTask userTask, Activity activity) {
+    public static void createUserTask(UserTask userTask, Activity activity, final CallbackDatabase callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child(getUser().getUid())
                     .child("tasks")
                     .push()
-                    .setValue(userTask);
-            Log.i("TASK", "SUCCESS CREATE TASK");
+                    .setValue(userTask).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    callback.onCallback(task);
+                }
+            });
 
         } else {
             Log.i("INTERNET", "NOT CONECTED");
@@ -196,7 +179,7 @@ public class FirebaseService {
      * @param activity
      * @param callback O método recebe como parâmetro a interface que implementa DataSnapshot
      */
-    public static void getTasks(Activity activity, final CallbackDatabase callback) {
+    public static void getTasks(Activity activity, final CallbackDataSnapshot callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child(getUser().getUid())

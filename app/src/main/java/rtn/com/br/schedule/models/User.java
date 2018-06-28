@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class User {
 
     private String name;
-    private ArrayList<UserTask> tasks;
+    private String email;
 
-    public User() {}
+    public User(){}
 
     public String getName() {
         return name;
@@ -20,11 +20,11 @@ public class User {
         this.name = name;
     }
 
-    public ArrayList<UserTask> getTasks() {
-        return tasks;
+    public String getEmail() {
+        return email;
     }
 
-    public void setTasks(ArrayList<UserTask> tasks) {
-        this.tasks = tasks;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

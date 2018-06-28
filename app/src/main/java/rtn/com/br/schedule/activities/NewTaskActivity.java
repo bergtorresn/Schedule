@@ -2,6 +2,7 @@ package rtn.com.br.schedule.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,11 +10,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
+
 import java.util.Date;
 
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.Alerts;
+import rtn.com.br.schedule.helpers.CallbackDatabase;
 import rtn.com.br.schedule.models.UserTask;
 
 public class NewTaskActivity extends AppCompatActivity {
@@ -55,10 +59,18 @@ public class NewTaskActivity extends AppCompatActivity {
                             taskPriority(userTask);
                             userTask.setCreated_at(new Date());
 
-                            FirebaseService.createUserTask(userTask, NewTaskActivity.this);
-
-                            Toast.makeText(NewTaskActivity.this, "Tarefa criada com sucesso!", Toast.LENGTH_SHORT).show();
-                            finish();
+                            FirebaseService.createUserTask(userTask, NewTaskActivity.this, new CallbackDatabase() {
+                                @Override
+                                public void onCallback(Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        Log.i("TASK", "SUCCESS CREATE TASK");
+                                        Toast.makeText(NewTaskActivity.this, "Tarefa criada com sucesso!", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    } else{
+                                        Alerts.genericAlert("Atenção", "Não foi possível criar esta tarefa, tente novamente.", NewTaskActivity.this);
+                                    }
+                                }
+                            });
                         } else {
                             Alerts.genericAlert("Atenção", "Informe uma descrição para esta tarefa.", NewTaskActivity.this);
                         }
@@ -72,16 +84,16 @@ public class NewTaskActivity extends AppCompatActivity {
         });
     }
 
-    private void taskPriority(UserTask task) {
+    private void taskPriority(UserTask userTask) {
         switch (mRadioButtonSelected.getId()) {
             case R.id.newtask_radioButtonHigh:
-                task.setPriority(0);
+                userTask.setPriority(0);
                 break;
             case R.id.newtask_radioButtonAvarage:
-                task.setPriority(1);
+                userTask.setPriority(1);
                 break;
             case R.id.newtask_radioButtonLow:
-                task.setPriority(2);
+                userTask.setPriority(2);
                 break;
             default:
                 break;
