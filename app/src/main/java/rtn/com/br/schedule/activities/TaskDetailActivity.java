@@ -53,7 +53,6 @@ public class TaskDetailActivity extends AppCompatActivity {
         mSpinner = findViewById(R.id.taskdetail_spinnerStatus);
 
         mTaskName.setText(mUserTask.getName());
-        mTaskDescription.setText(mUserTask.getDescription());
         mSpinner.setAdapter(arrayAdapter);
         mSpinner.setSelection(mUserTask.getStatus());
         mTaskCreatedAt.setText(UserTaskOutput.dateOutput(mUserTask.getCreated_at()));

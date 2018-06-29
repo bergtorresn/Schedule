@@ -2,17 +2,16 @@ package rtn.com.br.schedule.models;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-public class UserTask implements Serializable {
+public class TaskItem implements Serializable {
 
     private String name;
+    private String description;
     private Date created_at;
     private Integer priority; // 0 - Alta, 1 - Média, 2 - Baixa
     private Integer status; // 0 - Não Iniciada, 1 - Em Andamento, 2 - Cancelada, 3 - Concluída
-    private List<TaskItem> taskItems;
 
-    public UserTask() {
+    public TaskItem() {
     }
 
     public String getName() {
@@ -21,6 +20,14 @@ public class UserTask implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreated_at() {
@@ -45,13 +52,5 @@ public class UserTask implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public List<TaskItem> getTaskItems() {
-        return taskItems;
-    }
-
-    public void setTaskItems(List<TaskItem> taskItems) {
-        this.taskItems = taskItems;
     }
 }

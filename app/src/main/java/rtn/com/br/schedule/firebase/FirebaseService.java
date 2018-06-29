@@ -17,6 +17,7 @@ import rtn.com.br.schedule.interfaces.CallbackAuthResult;
 import rtn.com.br.schedule.interfaces.CallbackDatabase;
 import rtn.com.br.schedule.helpers.InternetConnection;
 import rtn.com.br.schedule.interfaces.CallbackDataSnapshot;
+import rtn.com.br.schedule.models.TaskItem;
 import rtn.com.br.schedule.models.User;
 import rtn.com.br.schedule.models.UserTask;
 
@@ -153,6 +154,31 @@ public class FirebaseService {
      * @param userTask
      * @param activity
      */
+    public static void createTaskItem(UserTask userTask, Activity activity, final CallbackDatabase callback) {
+        if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
+            Log.i("INTERNET", "CONECTED");
+            GetFirebase.getFireDatabaseReferenceUsers()
+                    .child(getUser().getUid())
+                    .child("tasks").child(userTask.getName())
+                    .child("taskitems").child(userTask.getTaskItems().get(0).getName())
+                    .setValue(userTask.getTaskItems().get(0)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    callback.onCallback(task);
+                }
+            });
+
+        } else {
+            Log.i("INTERNET", "NOT CONECTED");
+            Alerts.alertInternet(activity);
+        }
+    }
+
+    /**
+     * Método responsável por criar uma tarefa no nó do usuário atual
+     * @param userTask
+     * @param activity
+     */
     public static void createUserTask(UserTask userTask, Activity activity, final CallbackDatabase callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
@@ -182,6 +208,33 @@ public class FirebaseService {
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child(getUser().getUid())
                     .child("tasks")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            callback.onCallbackDataSnapshot(dataSnapshot);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            callback.onCallbackDatabaseError(databaseError);
+                        }
+                    });
+        } else {
+            Log.i("INTERNET", "NOT CONECTED");
+            Alerts.alertInternet(activity);
+        }
+    }
+
+    /**
+     * Método responsável por solicitar as tarefas contidas no nó do usuário
+     * @param activity
+     * @param callback O método recebe como parâmetro a interface que implementa DataSnapshot
+     */
+    public static void getTaskItems(UserTask userTask, Activity activity, final CallbackDataSnapshot callback) {
+        if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
+            GetFirebase.getFireDatabaseReferenceUsers()
+                    .child(getUser().getUid())
+                    .child("tasks").child(userTask.getName()).child("taskItems")
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

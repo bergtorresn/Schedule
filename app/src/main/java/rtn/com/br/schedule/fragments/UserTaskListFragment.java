@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,7 +46,7 @@ import rtn.com.br.schedule.models.UserTask;
 
 //https://medium.com/@harivigneshjayapalan/android-implementing-custom-recycler-view-part-i-9ce5e9af7fea
 //https://medium.com/@harivigneshjayapalan/android-recyclerview-implementing-single-item-click-and-long-press-part-ii-b43ef8cb6ad8
-public class TaskListFragment extends Fragment {
+public class UserTaskListFragment extends Fragment {
 
     // UI Elements
     private RecyclerView mRecyclerView;
@@ -60,7 +59,7 @@ public class TaskListFragment extends Fragment {
     private Integer mPrioritySelected;
     private Integer mStatusSelected;
 
-    public TaskListFragment() {
+    public UserTaskListFragment() {
     } // Required empty public constructor
 
     @Override
@@ -73,7 +72,7 @@ public class TaskListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_task_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_task_list, container, false);
         mListUserTasks = new ArrayList<>();
         mButton = view.findViewById(R.id.fragment_tasklist_buttonnewtask);
         mRecyclerView = view.findViewById(R.id.fragment_tasklist_recyclerview);
@@ -86,14 +85,14 @@ public class TaskListFragment extends Fragment {
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                showFragmentTaskItems();
+                showFragmentTaskItemList(mListUserTasks.get(position));
             }
         }));
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFragmentNewTask();
+                showFragmentCreateUserTask();
             }
         });
 
@@ -263,16 +262,20 @@ public class TaskListFragment extends Fragment {
         mUserTaskAdapter.notifyDataSetChanged();
     }
 
-    private void showFragmentTaskItems() {
-        TaskItemsFragment itemsFragment = new TaskItemsFragment();
+    private void showFragmentTaskItemList(UserTask userTask) {
+        TaskItemListFragment itemsFragment = new TaskItemListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("userTask", userTask);
+        itemsFragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.tasklist2_framecontent, itemsFragment);
+        fragmentTransaction.addToBackStack("backToUserTaskList");
         fragmentTransaction.commit();
     }
 
-    private void showFragmentNewTask() {
-        NewTaskFragment newTaskFragment = new NewTaskFragment();
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.tasklist2_framecontent, newTaskFragment);
-        fragmentTransaction.addToBackStack("backToTaskList");
+    private void showFragmentCreateUserTask() {
+        CreateTaskFragment createTaskFragment = new CreateTaskFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.tasklist2_framecontent, createTaskFragment);
+        fragmentTransaction.addToBackStack("backToUserTaskList");
         fragmentTransaction.commit();
     }
 

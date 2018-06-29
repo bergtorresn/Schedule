@@ -15,23 +15,27 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.Alerts;
 import rtn.com.br.schedule.interfaces.CallbackDatabase;
+import rtn.com.br.schedule.models.TaskItem;
 import rtn.com.br.schedule.models.UserTask;
 
-public class NewTaskFragment extends Fragment {
+public class CreateTaskItemFragment extends Fragment {
 
-    private Button mButtonSend;
+    private Button mButtonSave;
     private EditText mEditTextName;
     private EditText mEditTextDescription;
     private RadioGroup mRadioGroupPriority;
     private RadioButton mRadioButtonSelected;
+    private UserTask mUserTask;
 
-    public NewTaskFragment() {
+    public CreateTaskItemFragment() {
         // Required empty public constructor
     }
 
@@ -39,52 +43,60 @@ public class NewTaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        final View view = inflater.inflate(R.layout.fragment_create_task_item, container, false);
 
-        final View view = inflater.inflate(R.layout.fragment_new_task, container, false);
+        Bundle bundle = getArguments();
+        mUserTask= (UserTask) bundle.getSerializable("userTask");
 
-        mEditTextName = view.findViewById(R.id.fragment_newtask_edittexttaskname);
-        mEditTextDescription = view.findViewById(R.id.fragment_newtask_edittexttaskdescription);
-        mRadioGroupPriority = view.findViewById(R.id.fragment_newtask_radiogrouppriority);
-        mButtonSend = view.findViewById(R.id.fragment_newtask_buttonsend);
+        mEditTextName = view.findViewById(R.id.fragment_createItemTask_edtName);
+        mEditTextDescription = view.findViewById(R.id.fragment_createItemTask_edtDescription);
+        mRadioGroupPriority = view.findViewById(R.id.fragment_createItemTask_radioGrp);
+        mButtonSave = view.findViewById(R.id.fragment_createItemTask_btnSave);
 
-        mButtonSend.setOnClickListener(new View.OnClickListener() {
+        mButtonSave.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
 
-                UserTask userTask = new UserTask();
+                TaskItem taskItem = new TaskItem();
                 String name = mEditTextName.getText().toString();
                 String description = mEditTextDescription.getText().toString();
                 Integer radioButtonSelected = mRadioGroupPriority.getCheckedRadioButtonId();
 
-                if (radioButtonSelected > 0){
+                if (radioButtonSelected > 0) {
                     mRadioButtonSelected = view.findViewById(radioButtonSelected);
-                    switch (mRadioButtonSelected.getId()){
+                    switch (mRadioButtonSelected.getId()) {
                         case R.id.fragment_newtask_radiobuttonhigh:
-                            userTask.setPriority(0);
+                            taskItem.setPriority(0);
                             break;
                         case R.id.fragment_newtask_radiobuttonavarage:
-                            userTask.setPriority(1);
+                            taskItem.setPriority(1);
                             break;
                         case R.id.fragment_newtask_radiobuttonlow:
-                            userTask.setPriority(2);
+                            taskItem.setPriority(2);
                             break;
                     }
                 }
 
-                userTask.setName(name);
-                userTask.setDescription(description);
-                userTask.setStatus(0);
-                userTask.setCreated_at(new Date());
+                taskItem.setName(name);
+                taskItem.setDescription(description);
+                taskItem.setStatus(0);
+                taskItem.setCreated_at(new Date());
 
-                sendNewTask(userTask);
+                List<TaskItem> taskItems = new ArrayList<>();
+                taskItems.add(taskItem);
+                mUserTask.setTaskItems(taskItems);
+                Log.i("TESTE", mUserTask.getTaskItems().get(0).getName());
+                createTaskItem(mUserTask);
             }
         });
 
         return view;
     }
 
-    private void sendNewTask(UserTask userTask) {
-        FirebaseService.createUserTask(userTask, getActivity(), new CallbackDatabase() {
+    private void createTaskItem(UserTask userTask) {
+        FirebaseService.createTaskItem(userTask, getActivity(), new CallbackDatabase() {
             @Override
             public void onCallback(Task<Void> task) {
                 if (task.isSuccessful()) {

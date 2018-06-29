@@ -54,7 +54,6 @@ public class NewTaskActivity extends AppCompatActivity {
                     if (!taskName.matches("")) {
                         userTask.setName(taskName);
                         if (!taskDescription.matches("")) {
-                            userTask.setDescription(taskDescription);
                             userTask.setStatus(0);
                             taskPriority(userTask);
                             userTask.setCreated_at(new Date());
