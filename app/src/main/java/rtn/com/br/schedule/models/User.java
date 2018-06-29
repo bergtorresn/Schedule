@@ -10,7 +10,7 @@ public class User implements Serializable {
 
     private String name;
     private String email;
-    private List<UserTask> userTasks;
+    private List<UserTask> tasks;
 
     public User() {}
 
@@ -31,10 +31,10 @@ public class User implements Serializable {
     }
 
     public List<UserTask> getUserTasks() {
-        return userTasks;
+        return tasks;
     }
 
     public void setUserTasks(List<UserTask> userTasks) {
-        this.userTasks = userTasks;
+        this.tasks = userTasks;
     }
 }

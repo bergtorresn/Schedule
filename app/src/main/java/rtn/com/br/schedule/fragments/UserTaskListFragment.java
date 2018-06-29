@@ -111,6 +111,7 @@ public class UserTaskListFragment extends Fragment {
             public void onCallbackDataSnapshot(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserTask userTask = snapshot.getValue(UserTask.class);
+                    userTask.setKey(snapshot.getKey());
                     if (!mListUserTasks.contains(userTask)) {
                         mListUserTasks.add(userTask);
                     }

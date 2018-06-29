@@ -6,6 +6,7 @@ import java.util.List;
 
 public class UserTask implements Serializable {
 
+    private String key;
     private String name;
     private Date created_at;
     private Integer priority; // 0 - Alta, 1 - Média, 2 - Baixa
@@ -13,6 +14,14 @@ public class UserTask implements Serializable {
     private List<TaskItem> taskItems;
 
     public UserTask() {
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getName() {

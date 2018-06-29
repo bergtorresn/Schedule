@@ -159,8 +159,8 @@ public class FirebaseService {
             Log.i("INTERNET", "CONECTED");
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child(getUser().getUid())
-                    .child("tasks").child(userTask.getName())
-                    .child("taskitems").child(userTask.getTaskItems().get(0).getName())
+                    .child("tasks").child(userTask.getKey())
+                    .child("taskitems").push()
                     .setValue(userTask.getTaskItems().get(0)).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -184,7 +184,7 @@ public class FirebaseService {
             Log.i("INTERNET", "CONECTED");
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child(getUser().getUid())
-                    .child("tasks").child(userTask.getName())
+                    .child("tasks").push()
                     .setValue(userTask).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
