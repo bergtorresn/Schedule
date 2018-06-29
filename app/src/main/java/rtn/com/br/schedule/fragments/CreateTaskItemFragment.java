@@ -83,11 +83,9 @@ public class CreateTaskItemFragment extends Fragment {
                 taskItem.setDescription(description);
                 taskItem.setStatus(0);
                 taskItem.setCreated_at(new Date());
+                mUserTask.setTaskItems(new ArrayList<TaskItem>());
+                mUserTask.getTaskItems().add(taskItem);
 
-                List<TaskItem> taskItems = new ArrayList<>();
-                taskItems.add(taskItem);
-                mUserTask.setTaskItems(taskItems);
-                Log.i("TESTE", mUserTask.getTaskItems().get(0).getName());
                 createTaskItem(mUserTask);
             }
         });
@@ -100,7 +98,6 @@ public class CreateTaskItemFragment extends Fragment {
             @Override
             public void onCallback(Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Log.i("TASK", "SUCCESS CREATE TASK");
                     Toast.makeText(getActivity(), "Tarefa criada com sucesso!", Toast.LENGTH_SHORT).show();
                     getFragmentManager().popBackStackImmediate();
                 } else {
