@@ -3,14 +3,7 @@ package rtn.com.br.schedule.helpers;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
-
-import rtn.com.br.schedule.activities.NewTaskActivity;
-import rtn.com.br.schedule.activities.TaskDetailActivity;
-import rtn.com.br.schedule.activities.TaskListActivity;
-import rtn.com.br.schedule.firebase.FirebaseService;
-import rtn.com.br.schedule.models.UserTask;
 
 /**
  * Created by bergtorres on 17/06/2018

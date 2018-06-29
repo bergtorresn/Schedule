@@ -8,7 +8,7 @@ public class UserTaskOutput {
     public static String dateOutput(Date date){
         SimpleDateFormat ft =
                 new SimpleDateFormat("dd/MM/yyyy 'às' hh:mm");
-        String dateString = "Criada em: " + ft.format(date);
+        String dateString = ft.format(date);
         return dateString;
     }
 
@@ -22,7 +22,7 @@ public class UserTaskOutput {
             case 2: priorityToString = "Baixa";
                 break;
         }
-        return "Prioridade: " + priorityToString;
+        return priorityToString;
     }
 
     public static String statusOutput(Integer status){
@@ -37,7 +37,7 @@ public class UserTaskOutput {
             case 3: statusToString = "Concluída";
                 break;
         }
-        return "Status: " + statusToString;
+        return statusToString;
     }
 
 

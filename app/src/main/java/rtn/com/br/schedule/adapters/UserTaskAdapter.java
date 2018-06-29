@@ -1,9 +1,10 @@
 package rtn.com.br.schedule.adapters;
 
-import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
@@ -12,58 +13,51 @@ import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.helpers.UserTaskOutput;
 import rtn.com.br.schedule.models.UserTask;
 
-/**
- * Created by bergtorres on 24/06/2018
- */
-public class UserTaskAdapter extends BaseAdapter {
+public class UserTaskAdapter extends RecyclerView.Adapter<UserTaskAdapter.ViewHolder> {
 
     private List<UserTask> mUserTasks;
-    private Activity mActivity;
 
-    private TextView mTaskName;
-    private TextView mTaskPriority;
-    private TextView mTaskStatus;
-    private TextView mTaskCreatedAt;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-    public UserTaskAdapter(List<UserTask> userTasks, Activity activity) {
+        private TextView mTextViewName;
+        private TextView mTextViewCreated_at;
+        private TextView mTextViewPriority;
+        private TextView mTextViewStatus;
+
+        public ViewHolder(View v) {
+            super(v);
+
+            mTextViewName = v.findViewById(R.id.usertask_adapter_textviewname);
+            mTextViewCreated_at = v.findViewById(R.id.usertask_adapter_textviewcreatedat);
+            mTextViewPriority = v.findViewById(R.id.usertask_adapter_textviewpriority);
+            mTextViewStatus = v.findViewById(R.id.usertask_adapter_textviewstatus);
+        }
+    }
+
+    public UserTaskAdapter(List<UserTask> userTasks) {
         mUserTasks = userTasks;
-        mActivity = activity;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_usertask, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+
+        return viewHolder;
     }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.mTextViewName.setText(mUserTasks.get(position).getName());
+        holder.mTextViewCreated_at.setText(UserTaskOutput.dateOutput(mUserTasks.get(position).getCreated_at()));
+        holder.mTextViewPriority.setText(UserTaskOutput.priorityOutput(mUserTasks.get(position).getPriority()));
+        holder.mTextViewStatus.setText(UserTaskOutput.statusOutput(mUserTasks.get(position).getStatus()));
+    }
+
+    @Override
+    public int getItemCount() {
         return mUserTasks.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return mUserTasks.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View view = mActivity.getLayoutInflater().
-                inflate(R.layout.list_usertask_layout, parent, false);
-
-        UserTask userTask = mUserTasks.get(position);
-
-        mTaskName = view.findViewById(R.id.usertaskadapter_textViewName);
-        mTaskStatus = view.findViewById(R.id.usertaskadapter_textViewStatus);
-        mTaskPriority = view.findViewById(R.id.usertaskadapter_textViewPriority);
-        mTaskCreatedAt = view.findViewById(R.id.usertaskadapter_textViewCreatedAt);
-
-        mTaskName.setText("Nome da tarefa: " + userTask.getName());
-        mTaskCreatedAt.setText(UserTaskOutput.dateOutput(userTask.getCreated_at()));
-
-        mTaskStatus.setText(UserTaskOutput.statusOutput(userTask.getStatus()));
-        mTaskPriority.setText(UserTaskOutput.priorityOutput(userTask.getPriority()));
-
-        return view;
-    }
 }

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.NewTaskActivity">
+    tools:context=".fragments.NewTaskFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,7 +35,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/newtask_editTextTaskName"
+                android:id="@+id/fragment_newtask_edittexttaskname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -51,7 +50,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/newtask_editTextTaskDescription"
+                android:id="@+id/fragment_newtask_edittexttaskdescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -69,27 +68,27 @@
                 android:textSize="18sp" />
 
             <RadioGroup
-                android:id="@+id/newtask_radioGroupPriority"
+                android:id="@+id/fragment_newtask_radiogrouppriority"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/newtask_radioButtonHigh"
+                    android:id="@+id/fragment_newtask_radiobuttonhigh"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:text="@string/radiobutton_high" />
 
                 <RadioButton
-                    android:id="@+id/newtask_radioButtonAvarage"
+                    android:id="@+id/fragment_newtask_radiobuttonavarage"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:text="@string/radiobutton_average" />
 
                 <RadioButton
-                    android:id="@+id/newtask_radioButtonLow"
+                    android:id="@+id/fragment_newtask_radiobuttonlow"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -97,7 +96,7 @@
             </RadioGroup>
 
             <Button
-                android:id="@+id/newtask_buttonSend"
+                android:id="@+id/fragment_newtask_buttonsend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_save" />

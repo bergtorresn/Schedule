@@ -199,7 +199,6 @@ public class FirebaseService {
         }
     }
 
-
     /**
      * Método responsável por editar o status da tarefa
      * @param activity
