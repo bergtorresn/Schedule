@@ -32,8 +32,10 @@ import java.util.List;
 
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.activities.HomeActivity;
+import rtn.com.br.schedule.activities.MainActivity;
 import rtn.com.br.schedule.adapters.UserTaskAdapter;
 import rtn.com.br.schedule.firebase.FirebaseService;
+import rtn.com.br.schedule.firebase.GetFirebase;
 import rtn.com.br.schedule.helpers.Alerts;
 import rtn.com.br.schedule.helpers.RecyclerTouchListener;
 import rtn.com.br.schedule.interfaces.CallbackDataSnapshot;
@@ -140,10 +142,14 @@ public class UserTaskListFragment extends Fragment {
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                FirebaseService.singOut();
-                getActivity().finish();
-                startActivity(new Intent(getActivity(), HomeActivity.class));
-
+                try {
+                    GetFirebase.getFirebaseAuth().signOut();
+                    startActivity(new Intent(getActivity(), HomeActivity.class));
+                    getActivity().finish();
+                    Log.i("AUTH", "SUCCESS SINGOUT");
+                } catch (Exception e) {
+                    Log.i("AUTH", "ERROR SINGOUT " + e.getMessage());
+                }
             }
         });
 
