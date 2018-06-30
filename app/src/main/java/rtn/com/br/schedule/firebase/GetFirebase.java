@@ -4,6 +4,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import rtn.com.br.schedule.helpers.Constants;
+
 /**
  * Created by bergtorres on 16/06/2018
  */
@@ -23,6 +25,6 @@ public final class GetFirebase {
         if (mDatabaseReference != null) {
             return mDatabaseReference;
         }
-        return FirebaseDatabase.getInstance().getReference().child("taskdatabase");
+        return FirebaseDatabase.getInstance().getReference().child(Constants.NODE_DATABASE);
     }
 }

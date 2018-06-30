@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import rtn.com.br.schedule.helpers.Alerts;
+import rtn.com.br.schedule.helpers.Constants;
 import rtn.com.br.schedule.interfaces.CallbackAuthResult;
 import rtn.com.br.schedule.interfaces.CallbackDatabase;
 import rtn.com.br.schedule.helpers.InternetConnection;
@@ -139,7 +140,7 @@ public class FirebaseService {
      */
     public static void createUserInDB(User user, final CallbackDatabase callback) {
         GetFirebase.getFireDatabaseReferenceUsers()
-                .child("users")
+                .child(Constants.NODE_USERS)
                 .child(getUser().getUid())
                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -160,7 +161,7 @@ public class FirebaseService {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
             GetFirebase.getFireDatabaseReferenceUsers()
-                    .child("usertasks")
+                    .child(Constants.NODE_USERTASKS)
                     .child(getUser().getUid())
                     .push()
                     .setValue(userTask).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -185,7 +186,7 @@ public class FirebaseService {
     public static void getUserTasks(Activity activity, final CallbackDataSnapshot callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
-                    .child("usertasks")
+                    .child(Constants.NODE_USERTASKS)
                     .child(getUser().getUid())
                     .addValueEventListener(new ValueEventListener() {
                         @Override
@@ -213,7 +214,7 @@ public class FirebaseService {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
             GetFirebase.getFireDatabaseReferenceUsers()
-                    .child("taskitems")
+                    .child(Constants.NODE_TASKITEMS)
                     .child(getUser().getUid())
                     .child(taskUid)
                     .push()
@@ -239,7 +240,7 @@ public class FirebaseService {
     public static void getTaskItems(String taskUid, Activity activity, final CallbackDataSnapshot callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
-                    .child("taskitems")
+                    .child(Constants.NODE_TASKITEMS)
                     .child(getUser().getUid())
                     .child(taskUid)
                     .addValueEventListener(new ValueEventListener() {
