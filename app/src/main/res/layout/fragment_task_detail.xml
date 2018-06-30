@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.TaskDetailFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragment_taskdetail_textViewCreatedAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data da criação: 10/02/2018 äs 11:11"
+                android:layout_marginBottom="6dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/fragment_taskdetail_textViewPriority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Prioridade: Alta"
+                android:layout_marginBottom="6dp"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_taskdetail_textViewDescription" />
+
+            <TextView
+                android:id="@+id/fragment_taskdetail_textViewName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nome: Minha tarefa é bem legal gostei muito dela"
+                android:layout_marginBottom="6dp"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_taskdetail_textViewCreatedAt" />
+
+            <TextView
+                android:id="@+id/fragment_taskdetail_textViewDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descrição: Essa tarefa tem como descrição esse texto aqui"
+                android:layout_marginBottom="8dp"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_taskdetail_textViewName" />
+
+            <Spinner
+                android:id="@+id/fragment_taskdetail_spinnerStatus"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_taskdetail_textViewPriority" />
+
+            <Button
+                android:id="@+id/fragment_taskdetail_btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_update"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_taskdetail_spinnerStatus" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

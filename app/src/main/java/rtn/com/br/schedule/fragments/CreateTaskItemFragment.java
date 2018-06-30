@@ -67,13 +67,13 @@ public class CreateTaskItemFragment extends Fragment {
                 if (radioButtonSelected > 0) {
                     mRadioButtonSelected = view.findViewById(radioButtonSelected);
                     switch (mRadioButtonSelected.getId()) {
-                        case R.id.fragment_newtask_radiobuttonhigh:
+                        case R.id.fragment_createItemTask_radioBtnHigh:
                             taskItem.setPriority(0);
                             break;
-                        case R.id.fragment_newtask_radiobuttonavarage:
+                        case R.id.fragment_createItemTask_radioBtnAvarage:
                             taskItem.setPriority(1);
                             break;
-                        case R.id.fragment_newtask_radiobuttonlow:
+                        case R.id.fragment_createItemTask_radioBtnLow:
                             taskItem.setPriority(2);
                             break;
                     }
@@ -83,18 +83,16 @@ public class CreateTaskItemFragment extends Fragment {
                 taskItem.setDescription(description);
                 taskItem.setStatus(0);
                 taskItem.setCreated_at(new Date());
-                mUserTask.setTaskItems(new ArrayList<TaskItem>());
-                mUserTask.getTaskItems().add(taskItem);
 
-                createTaskItem(mUserTask);
+                createNewTaskItem(mUserTask.getUid(), taskItem);
             }
         });
 
         return view;
     }
 
-    private void createTaskItem(UserTask userTask) {
-        FirebaseService.createTaskItem(userTask, getActivity(), new CallbackDatabase() {
+    private void createNewTaskItem(String userTaskUid, TaskItem taskItem) {
+        FirebaseService.createTaskItem(userTaskUid,taskItem, getActivity(), new CallbackDatabase() {
             @Override
             public void onCallback(Task<Void> task) {
                 if (task.isSuccessful()) {

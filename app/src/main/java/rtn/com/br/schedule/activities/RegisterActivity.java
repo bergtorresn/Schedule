@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void startTaskListActivity() {
-        startActivity(new Intent(RegisterActivity.this, TaskListActivity.class));
+        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
         finish();
     }
 }

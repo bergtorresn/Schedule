@@ -6,12 +6,12 @@ import android.os.Bundle;
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.fragments.UserTaskListFragment;
 
-public class TaskListActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_list);
+        setContentView(R.layout.main_activity);
 
         if (savedInstanceState == null){
             showFragmentTaskList();

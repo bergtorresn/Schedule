@@ -3,13 +3,25 @@ package rtn.com.br.schedule.helpers;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class UserTaskOutput {
+public class DataOutput {
+
+    public static String nameOutput(String name){
+        String textFinal = "<b>Nome: </b>" + name;
+        return textFinal;
+    }
+
+    public static String descriptionOutput(String name){
+        String textFinal = "<b>Descrição: </b>" + name;
+        return textFinal;
+    }
 
     public static String dateOutput(Date date){
         SimpleDateFormat ft =
                 new SimpleDateFormat("dd/MM/yyyy 'às' hh:mm");
         String dateString = ft.format(date);
-        return dateString;
+
+        String textFinal = "<b>Data: </b>" + dateString;
+        return textFinal;
     }
 
     public static String priorityOutput(Integer priority){
@@ -22,7 +34,9 @@ public class UserTaskOutput {
             case 2: priorityToString = "Baixa";
                 break;
         }
-        return priorityToString;
+
+        String textFinal = "<b>Prioridade: </b>" + priorityToString;
+        return textFinal;
     }
 
     public static String statusOutput(Integer status){
@@ -37,7 +51,9 @@ public class UserTaskOutput {
             case 3: statusToString = "Concluída";
                 break;
         }
-        return statusToString;
+
+        String textFinal = "<b>Status: </b>" + statusToString;
+        return textFinal;
     }
 
 

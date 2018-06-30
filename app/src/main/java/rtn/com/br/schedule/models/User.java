@@ -6,13 +6,22 @@ import java.util.List;
 /**
  * Created by bergtorres on 17/06/2018
  */
-public class User implements Serializable {
+public class User {
 
+    private String uid;
     private String name;
     private String email;
-    private List<UserTask> tasks;
 
-    public User() {}
+    public User() {
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getName() {
         return name;
@@ -28,13 +37,5 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<UserTask> getUserTasks() {
-        return tasks;
-    }
-
-    public void setUserTasks(List<UserTask> userTasks) {
-        this.tasks = userTasks;
     }
 }

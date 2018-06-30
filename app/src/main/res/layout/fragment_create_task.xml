@@ -41,60 +41,6 @@
                 android:ems="10"
                 android:inputType="textPersonName" />
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_task_description"
-                android:textAlignment="center"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/fragment_newtask_edittexttaskdescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textMultiLine"
-                android:maxLines="4"
-                android:minLines="2"
-                android:scrollbars="vertical" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_task_priority"
-                android:textAlignment="center"
-                android:textSize="18sp" />
-
-            <RadioGroup
-                android:id="@+id/fragment_newtask_radiogrouppriority"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/fragment_newtask_radiobuttonhigh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:text="@string/radiobutton_high" />
-
-                <RadioButton
-                    android:id="@+id/fragment_newtask_radiobuttonavarage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:text="@string/radiobutton_average" />
-
-                <RadioButton
-                    android:id="@+id/fragment_newtask_radiobuttonlow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:text="@string/radiobutton_low" />
-            </RadioGroup>
-
             <Button
                 android:id="@+id/fragment_newtask_buttonsend"
                 android:layout_width="match_parent"

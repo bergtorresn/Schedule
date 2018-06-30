@@ -139,6 +139,7 @@ public class FirebaseService {
      */
     public static void createUserInDB(User user, final CallbackDatabase callback) {
         GetFirebase.getFireDatabaseReferenceUsers()
+                .child("users")
                 .child(getUser().getUid())
                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -149,30 +150,6 @@ public class FirebaseService {
         });
     }
 
-    /**
-     * Método responsável por criar uma tarefa no nó do usuário atual
-     * @param userTask
-     * @param activity
-     */
-    public static void createTaskItem(UserTask userTask, Activity activity, final CallbackDatabase callback) {
-        if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
-            Log.i("INTERNET", "CONECTED");
-            GetFirebase.getFireDatabaseReferenceUsers()
-                    .child(getUser().getUid())
-                    .child("tasks").child(userTask.getKey())
-                    .child("taskitems").push()
-                    .setValue(userTask.getTaskItems().get(0)).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    callback.onCallback(task);
-                }
-            });
-
-        } else {
-            Log.i("INTERNET", "NOT CONECTED");
-            Alerts.alertInternet(activity);
-        }
-    }
 
     /**
      * Método responsável por criar uma tarefa no nó do usuário atual
@@ -183,8 +160,9 @@ public class FirebaseService {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             Log.i("INTERNET", "CONECTED");
             GetFirebase.getFireDatabaseReferenceUsers()
+                    .child("usertasks")
                     .child(getUser().getUid())
-                    .child("tasks").push()
+                    .push()
                     .setValue(userTask).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -198,16 +176,17 @@ public class FirebaseService {
         }
     }
 
+
     /**
      * Método responsável por solicitar as tarefas contidas no nó do usuário
      * @param activity
      * @param callback O método recebe como parâmetro a interface que implementa DataSnapshot
      */
-    public static void getTasks(Activity activity, final CallbackDataSnapshot callback) {
+    public static void getUserTasks(Activity activity, final CallbackDataSnapshot callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
+                    .child("usertasks")
                     .child(getUser().getUid())
-                    .child("tasks")
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -226,15 +205,43 @@ public class FirebaseService {
     }
 
     /**
+     * Método responsável por criar uma tarefa no nó do usuário atual
+     * @param taskUid
+     * @param activity
+     */
+    public static void createTaskItem(String taskUid, TaskItem taskItem, Activity activity, final CallbackDatabase callback) {
+        if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
+            Log.i("INTERNET", "CONECTED");
+            GetFirebase.getFireDatabaseReferenceUsers()
+                    .child("taskitems")
+                    .child(getUser().getUid())
+                    .child(taskUid)
+                    .push()
+                    .setValue(taskItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    callback.onCallback(task);
+                }
+            });
+
+        } else {
+            Log.i("INTERNET", "NOT CONECTED");
+            Alerts.alertInternet(activity);
+        }
+    }
+
+
+    /**
      * Método responsável por solicitar as tarefas contidas no nó do usuário
      * @param activity
      * @param callback O método recebe como parâmetro a interface que implementa DataSnapshot
      */
-    public static void getTaskItems(UserTask userTask, Activity activity, final CallbackDataSnapshot callback) {
+    public static void getTaskItems(String taskUid, Activity activity, final CallbackDataSnapshot callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
+                    .child("taskitems")
                     .child(getUser().getUid())
-                    .child("tasks").child(userTask.getName()).child("taskItems")
+                    .child(taskUid)
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -257,13 +264,15 @@ public class FirebaseService {
      * @param activity
      * @param userTask
      */
-    public static void editTask(Activity activity, UserTask userTask) {
+    public static void updateTaskItem(Activity activity, Integer status, String taskUid, String taskItemUid) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
+                    .child("taskitems")
                     .child(getUser().getUid())
-                    .child("tasks")
-                    .child(userTask.getName()).child("status")
-                    .setValue(userTask.getStatus());
+                    .child(taskUid)
+                    .child(taskItemUid)
+                    .child("status")
+                    .setValue(status);
         } else {
             Log.i("INTERNET", "NOT CONECTED");
             Alerts.alertInternet(activity);
@@ -275,12 +284,14 @@ public class FirebaseService {
      * @param activity
      * @param userTask
      */
-    public static void deleteTask(Activity activity, UserTask userTask) {
+    public static void deleteTaskItem(Activity activity, Integer status, String taskUid, String taskItemUid) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
+                    .child("taskitems")
                     .child(getUser().getUid())
-                    .child("tasks")
-                    .child(userTask.getName())
+                    .child(taskUid)
+                    .child(taskItemUid)
+                    .child("status")
                     .removeValue();
         } else {
             Log.i("INTERNET", "NOT CONECTED");

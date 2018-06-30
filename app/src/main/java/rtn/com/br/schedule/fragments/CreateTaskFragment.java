@@ -27,8 +27,6 @@ public class CreateTaskFragment extends Fragment {
 
     private Button mButtonSend;
     private EditText mEditTextName;
-    private RadioGroup mRadioGroupPriority;
-    private RadioButton mRadioButtonSelected;
 
     public CreateTaskFragment() {
         // Required empty public constructor
@@ -42,49 +40,29 @@ public class CreateTaskFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_create_task, container, false);
 
         mEditTextName = view.findViewById(R.id.fragment_newtask_edittexttaskname);
-        mRadioGroupPriority = view.findViewById(R.id.fragment_newtask_radiogrouppriority);
         mButtonSend = view.findViewById(R.id.fragment_newtask_buttonsend);
 
         mButtonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                UserTask userTask = new UserTask();
                 String name = mEditTextName.getText().toString();
-                Integer radioButtonSelected = mRadioGroupPriority.getCheckedRadioButtonId();
 
-                if (radioButtonSelected > 0){
-                    mRadioButtonSelected = view.findViewById(radioButtonSelected);
-                    switch (mRadioButtonSelected.getId()){
-                        case R.id.fragment_newtask_radiobuttonhigh:
-                            userTask.setPriority(0);
-                            break;
-                        case R.id.fragment_newtask_radiobuttonavarage:
-                            userTask.setPriority(1);
-                            break;
-                        case R.id.fragment_newtask_radiobuttonlow:
-                            userTask.setPriority(2);
-                            break;
-                    }
-                }
-
+                UserTask userTask = new UserTask();
                 userTask.setName(name);
-                userTask.setStatus(0);
                 userTask.setCreated_at(new Date());
-
-                sendNewTask(userTask);
+                createNewUserTask(userTask);
             }
         });
 
         return view;
     }
 
-    private void sendNewTask(UserTask userTask) {
+    private void createNewUserTask(UserTask userTask) {
         FirebaseService.createUserTask(userTask, getActivity(), new CallbackDatabase() {
             @Override
             public void onCallback(Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Log.i("TASK", "SUCCESS CREATE TASK");
                     Toast.makeText(getActivity(), "Tarefa criada com sucesso!", Toast.LENGTH_SHORT).show();
                     getFragmentManager().popBackStackImmediate();
                 } else {
