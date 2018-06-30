@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +52,7 @@ public class UserTaskListFragment extends Fragment {
     private FloatingActionButton mButton;
     private List<UserTask> mListUserTasks;
     private UserTaskAdapter mUserTaskAdapter;
+    private ProgressBar mProgressBar;
 
     public UserTaskListFragment() {
     } // Required empty public constructor
@@ -69,6 +71,7 @@ public class UserTaskListFragment extends Fragment {
         mListUserTasks = new ArrayList<>();
         mButton = view.findViewById(R.id.fragment_tasklist_buttonnewtask);
         mRecyclerView = view.findViewById(R.id.fragment_tasklist_recyclerview);
+        mProgressBar = view.findViewById(R.id.progressBar_usertasks);
 
         // CLICK ON ITEM RECYLEVIRE, AND CALL showFragmentTaskItems, PASS ITEM PRESS FOR NEW FRAGMENT
 
@@ -98,6 +101,7 @@ public class UserTaskListFragment extends Fragment {
     }
 
     private void fetchUserTasks() {
+        showProgressBar();
         FirebaseService.getUserTasks(getActivity(), new CallbackDataSnapshot() {
             @Override
             public void onCallbackDataSnapshot(DataSnapshot dataSnapshot) {
@@ -111,10 +115,12 @@ public class UserTaskListFragment extends Fragment {
                 mUserTaskAdapter = new UserTaskAdapter(mListUserTasks);
                 mUserTaskAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mUserTaskAdapter);
+                hiddenProgressBar();
             }
 
             @Override
             public void onCallbackDatabaseError(DatabaseError databaseError) {
+                hiddenProgressBar();
                 Alerts.genericAlert("Atenção", "Não foi possível se comunicar como servidor, tente novamente.", getActivity());
             }
         });
@@ -180,5 +186,15 @@ public class UserTaskListFragment extends Fragment {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.tasklist2_framecontent, createTaskFragment);
         fragmentTransaction.addToBackStack("backToUserTaskList");
         fragmentTransaction.commit();
+    }
+
+    private void showProgressBar(){
+        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setIndeterminate(true);
+    }
+
+    private void hiddenProgressBar(){
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mProgressBar.setIndeterminate(false);
     }
 }

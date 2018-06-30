@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mButtonSend;
     private EditText mEditTextEmail;
     private EditText mEditTextPassword;
-
+    private ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         mEditTextEmail = findViewById(R.id.login_editTextEmail);
         mEditTextPassword = findViewById(R.id.login_editTextPassword);
         mButtonSend = findViewById(R.id.login_buttonSend);
+        mProgressBar = findViewById(R.id.progressBar);
 
         mButtonSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password = mEditTextPassword.getText().toString();
                 if (!email.isEmpty()) {
                     if (!password.isEmpty()) {
+                        showProgressBar();
                         FirebaseService.singIn(email,
                                 password,
                                 LoginActivity.this,
@@ -50,8 +53,10 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onCallback(Task<AuthResult> resultTask) {
                                         if (resultTask.isSuccessful()) {
                                             Log.i("AUTH", "SUCCESS - LOGIN");
+                                            hiddenProgressBar();
                                             startTaskListActivity();
                                         } else {
+                                            hiddenProgressBar();
                                             Log.i("AUTH", "ERROR - LOGIN " + resultTask.getException().getMessage());
                                             Alerts.genericAlert("ERROR", resultTask.getException().getMessage(), LoginActivity.this);
                                         }
@@ -70,6 +75,16 @@ public class LoginActivity extends AppCompatActivity {
     private void startTaskListActivity() {
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finish();
+    }
+
+    private void showProgressBar(){
+        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setIndeterminate(true);
+    }
+
+    private void hiddenProgressBar(){
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mProgressBar.setIndeterminate(false);
     }
 
 }

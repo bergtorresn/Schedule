@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mEditTextName;
     private EditText mEditTextEmail;
     private EditText mEditTextPassword;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         mEditTextEmail = findViewById(R.id.register_editTextEmail);
         mEditTextPassword = findViewById(R.id.register_editTextPassword);
         mButtonSend = findViewById(R.id.register_buttonSend);
+        mProgressBar = findViewById(R.id.progressBar_register);
 
         mButtonSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!name.isEmpty()) {
                     if (!email.isEmpty()) {
                         if (!password.isEmpty()) {
-
+                                showProgressBar();
                             final User user = new User();
                             user.setName(name);
                             user.setEmail(email);
@@ -62,14 +65,17 @@ public class RegisterActivity extends AppCompatActivity {
                                             @Override
                                             public void onCallback(Task<Void> task) {
                                                 if (task.isSuccessful()) {
+                                                    hiddenProgressBar();
                                                     startTaskListActivity();
                                                     Log.d("AUTH", "SUCCESS  - CREATE USER IN DB");
                                                 } else {
+                                                    hiddenProgressBar();
                                                     Log.d("AUTH", "ERROR - CREATE USER IN DB " + task.getException().getMessage());
                                                 }
                                             }
                                         });
                                     } else {
+                                        hiddenProgressBar();
                                         Log.i("AUTH", "ERROR - CREATE USER " + resultTask.getException().getMessage());
                                         Alerts.genericAlert("ERROR", resultTask.getException().getMessage(), RegisterActivity.this);
                                     }
@@ -91,5 +97,15 @@ public class RegisterActivity extends AppCompatActivity {
     private void startTaskListActivity() {
         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
         finish();
+    }
+
+    private void showProgressBar(){
+        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setIndeterminate(true);
+    }
+
+    private void hiddenProgressBar(){
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mProgressBar.setIndeterminate(false);
     }
 }

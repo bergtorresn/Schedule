@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.google.firebase.database.DataSnapshot;
@@ -50,6 +51,7 @@ public class TaskItemListFragment extends Fragment {
     private FloatingActionButton mButton;
     private List<TaskItem> mTaskItemList;
     private UserTask mUserTask;
+    private ProgressBar mProgressBar;
 
     // Properties
     private String mArrayStatus[] = {"Não iniciada", "Em andamento", "Cancelada", "Concluída"};
@@ -76,7 +78,7 @@ public class TaskItemListFragment extends Fragment {
         Bundle bundle = getArguments();
         mUserTask = (UserTask) bundle.getSerializable("userTask");
         mTaskItemList = new ArrayList<>();
-
+        mProgressBar = view.findViewById(R.id.progressBar_taskitems);
         mRecyclerView = view.findViewById(R.id.fragment_taskitems_recyclerview);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -121,6 +123,7 @@ public class TaskItemListFragment extends Fragment {
     }
 
     private void fetchTaskItems(UserTask userTask) {
+        showProgressBar();
         FirebaseService.getTaskItems(userTask.getUid(), getActivity(), new CallbackDataSnapshot() {
             @Override
             public void onCallbackDataSnapshot(DataSnapshot dataSnapshot) {
@@ -139,10 +142,12 @@ public class TaskItemListFragment extends Fragment {
                 mTaskItemAdapter = new TaskItemAdapter(mTaskItemList);
                 mTaskItemAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mTaskItemAdapter);
+                hiddenProgressBar();
             }
 
             @Override
             public void onCallbackDatabaseError(DatabaseError databaseError) {
+                hiddenProgressBar();
                 Alerts.genericAlert("Atenção", "Não foi possível se comunicar como servidor, tente novamente.", getActivity());
             }
         });
@@ -249,5 +254,15 @@ public class TaskItemListFragment extends Fragment {
         builder.setCancelable(false);
         builder.create();
         builder.show();
+    }
+
+    private void showProgressBar(){
+        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setIndeterminate(true);
+    }
+
+    private void hiddenProgressBar(){
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mProgressBar.setIndeterminate(false);
     }
 }
