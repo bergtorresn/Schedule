@@ -143,7 +143,7 @@ public class UserTaskListFragment extends Fragment {
 
     private void alertSigOut() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Deseja sair da sua conta?");
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override

@@ -188,7 +188,7 @@ public class FirebaseService {
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child(Constants.NODE_USERTASKS)
                     .child(getUser().getUid())
-                    .addValueEventListener(new ValueEventListener() {
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             callback.onCallbackDataSnapshot(dataSnapshot);
@@ -243,7 +243,7 @@ public class FirebaseService {
                     .child(Constants.NODE_TASKITEMS)
                     .child(getUser().getUid())
                     .child(taskUid)
-                    .addValueEventListener(new ValueEventListener() {
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             callback.onCallbackDataSnapshot(dataSnapshot);
