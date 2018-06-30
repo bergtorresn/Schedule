@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/title_task_name"
+                android:text="@string/title_task"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 

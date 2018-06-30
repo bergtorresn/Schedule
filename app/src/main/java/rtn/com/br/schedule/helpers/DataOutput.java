@@ -17,7 +17,7 @@ public class DataOutput {
 
     public static String dateOutput(Date date){
         SimpleDateFormat ft =
-                new SimpleDateFormat("dd/MM/yyyy 'às' hh:mm");
+                new SimpleDateFormat("dd/MM/yyyy 'às' HH:mm");
         String dateString = ft.format(date);
 
         String textFinal = "<b>Data: </b>" + dateString;

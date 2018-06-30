@@ -46,7 +46,7 @@ public class CreateTaskItemFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_create_task_item, container, false);
 
         Bundle bundle = getArguments();
-        mUserTask= (UserTask) bundle.getSerializable("userTask");
+        mUserTask = (UserTask) bundle.getSerializable("userTask");
 
         mEditTextName = view.findViewById(R.id.fragment_createItemTask_edtName);
         mEditTextDescription = view.findViewById(R.id.fragment_createItemTask_edtDescription);
@@ -59,32 +59,42 @@ public class CreateTaskItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                TaskItem taskItem = new TaskItem();
                 String name = mEditTextName.getText().toString();
                 String description = mEditTextDescription.getText().toString();
                 Integer radioButtonSelected = mRadioGroupPriority.getCheckedRadioButtonId();
 
-                if (radioButtonSelected > 0) {
-                    mRadioButtonSelected = view.findViewById(radioButtonSelected);
-                    switch (mRadioButtonSelected.getId()) {
-                        case R.id.fragment_createItemTask_radioBtnHigh:
-                            taskItem.setPriority(0);
-                            break;
-                        case R.id.fragment_createItemTask_radioBtnAvarage:
-                            taskItem.setPriority(1);
-                            break;
-                        case R.id.fragment_createItemTask_radioBtnLow:
-                            taskItem.setPriority(2);
-                            break;
+                if (!name.isEmpty()) {
+                    if (!description.isEmpty()) {
+                        TaskItem taskItem = new TaskItem();
+                        if (radioButtonSelected > 0) {
+                            mRadioButtonSelected = view.findViewById(radioButtonSelected);
+                            switch (mRadioButtonSelected.getId()) {
+                                case R.id.fragment_createItemTask_radioBtnHigh:
+                                    taskItem.setPriority(0);
+                                    break;
+                                case R.id.fragment_createItemTask_radioBtnAvarage:
+                                    taskItem.setPriority(1);
+                                    break;
+                                case R.id.fragment_createItemTask_radioBtnLow:
+                                    taskItem.setPriority(2);
+                                    break;
+                            }
+                            taskItem.setName(name);
+                            taskItem.setDescription(description);
+                            taskItem.setStatus(0);
+                            taskItem.setCreated_at(new Date());
+
+                            createNewTaskItem(mUserTask.getUid(), taskItem);
+                        } else {
+                            Alerts.genericAlert("Atenção", "Selecione uma opção de prioridade para esta tarefa.", getActivity());
+                        }
+                    } else {
+                        Alerts.genericAlert("Atenção", "Informe uma descrição para esta tarefa.", getActivity());
                     }
+                } else {
+                    Alerts.genericAlert("Atenção", "Informe um nome para esta tarefa.", getActivity());
                 }
 
-                taskItem.setName(name);
-                taskItem.setDescription(description);
-                taskItem.setStatus(0);
-                taskItem.setCreated_at(new Date());
-
-                createNewTaskItem(mUserTask.getUid(), taskItem);
             }
         });
 
@@ -92,7 +102,7 @@ public class CreateTaskItemFragment extends Fragment {
     }
 
     private void createNewTaskItem(String userTaskUid, TaskItem taskItem) {
-        FirebaseService.createTaskItem(userTaskUid,taskItem, getActivity(), new CallbackDatabase() {
+        FirebaseService.createTaskItem(userTaskUid, taskItem, getActivity(), new CallbackDatabase() {
             @Override
             public void onCallback(Task<Void> task) {
                 if (task.isSuccessful()) {

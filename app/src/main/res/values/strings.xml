@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Schedule</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="title_task_name">Nome da tarefa</string>
+    <string name="title_task_name">Nome da atividade</string>
+    <string name="title_task">Nome da tarefa</string>
     <string name="title_task_description">Descrição</string>
     <string name="title_task_priority">Prioridade</string>
     <string name="title_task_status">Status</string>

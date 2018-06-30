@@ -21,9 +21,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
+
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.DataOutput;
+import rtn.com.br.schedule.interfaces.CallbackDatabase;
 import rtn.com.br.schedule.models.TaskItem;
 import rtn.com.br.schedule.models.UserTask;
 
@@ -93,8 +96,10 @@ public class TaskDetailFragment extends Fragment {
         mTextViewCreated_at.setText(Html.fromHtml(DataOutput.dateOutput(mTaskItem.getCreated_at())));
         mTextViewPriority.setText(Html.fromHtml(DataOutput.priorityOutput(mTaskItem.getPriority())));
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, mArrayStatus);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, mArrayStatus);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerStatus.setAdapter(arrayAdapter);
+        mSpinnerStatus.setSelection(mTaskItem.getStatus());
         mSpinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -111,7 +116,16 @@ public class TaskDetailFragment extends Fragment {
         mButtonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseService.updateTaskItem(getActivity(), mStatusSelected, mUserTaskUid, mTaskItem.getUid());
+                FirebaseService.updateTaskItem(getActivity(), mStatusSelected, mUserTaskUid, mTaskItem.getUid(), new CallbackDatabase() {
+                    @Override
+                    public void onCallback(Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getContext(), "Tarefa atualizada com sucesso!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Não foi possível atualizar esta tarefa!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
             }
         });
 
@@ -128,9 +142,17 @@ public class TaskDetailFragment extends Fragment {
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                FirebaseService.removeTaskItem(getActivity(), mStatusSelected, mUserTaskUid, mTaskItem.getUid());
-                Toast.makeText(getContext(), "Tarefa removida com sucesso!", Toast.LENGTH_SHORT).show();
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
+                FirebaseService.removeTaskItem(getActivity(), mStatusSelected, mUserTaskUid, mTaskItem.getUid(), new CallbackDatabase() {
+                    @Override
+                    public void onCallback(Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getContext(), "Tarefa removida com sucesso!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Não foi possível remover esta tarefa!", Toast.LENGTH_LONG).show();
+                            getActivity().getSupportFragmentManager().popBackStackImmediate();
+                        }
+                    }
+                });
             }
         });
 

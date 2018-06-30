@@ -267,7 +267,7 @@ public class FirebaseService {
      * @param taskUid
      * @param taskItemUid
      */
-    public static void updateTaskItem(Activity activity, Integer status, String taskUid, String taskItemUid) {
+    public static void updateTaskItem(Activity activity, Integer status, String taskUid, String taskItemUid, final CallbackDatabase callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child("taskitems")
@@ -275,7 +275,12 @@ public class FirebaseService {
                     .child(taskUid)
                     .child(taskItemUid)
                     .child("status")
-                    .setValue(status);
+                    .setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    callback.onCallback(task);
+                }
+            });
         } else {
             Log.i("INTERNET", "NOT CONECTED");
             Alerts.alertInternet(activity);
@@ -289,14 +294,19 @@ public class FirebaseService {
      * @param taskUid
      * @param taskItemUid
      */
-    public static void removeTaskItem(Activity activity, Integer status, String taskUid, String taskItemUid) {
+    public static void removeTaskItem(Activity activity, Integer status, String taskUid, String taskItemUid, final CallbackDatabase callback) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child("taskitems")
                     .child(getUser().getUid())
                     .child(taskUid)
                     .child(taskItemUid)
-                    .removeValue();
+                    .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    callback.onCallback(task);
+                }
+            });
         } else {
             Log.i("INTERNET", "NOT CONECTED");
             Alerts.alertInternet(activity);

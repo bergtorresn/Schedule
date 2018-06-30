@@ -30,50 +30,59 @@
                 android:id="@+id/fragment_taskdetail_textViewCreatedAt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Data da criação: 10/02/2018 äs 11:11"
                 android:layout_marginBottom="6dp"
+                android:text="Data da criação: 10/02/2018 äs 11:11"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/fragment_taskdetail_textViewPriority"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Prioridade: Alta"
                 android:layout_marginBottom="6dp"
-                android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_taskdetail_textViewDescription" />
+                android:text="Prioridade: Alta"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/fragment_taskdetail_textViewName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nome: Minha tarefa é bem legal gostei muito dela"
                 android:layout_marginBottom="6dp"
-                android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_taskdetail_textViewCreatedAt" />
+                android:text="Nome: Minha tarefa é bem legal gostei muito dela"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/fragment_taskdetail_textViewDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Descrição: Essa tarefa tem como descrição esse texto aqui"
                 android:layout_marginBottom="8dp"
-                android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_taskdetail_textViewName" />
+                android:text="Descrição: Essa tarefa tem como descrição esse texto aqui"
+                android:textSize="18sp" />
 
-            <Spinner
-                android:id="@+id/fragment_taskdetail_spinnerStatus"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_taskdetail_textViewPriority" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status:"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/fragment_taskdetail_spinnerStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/fragment_taskdetail_btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_update"
-                app:layout_constraintTop_toBottomOf="@+id/fragment_taskdetail_spinnerStatus" />
+                android:text="@string/btn_update" />
 
         </LinearLayout>
 

@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import java.util.Date;
 
 import rtn.com.br.schedule.R;
+import rtn.com.br.schedule.activities.LoginActivity;
 import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.Alerts;
 import rtn.com.br.schedule.interfaces.CallbackDatabase;
@@ -47,11 +48,15 @@ public class CreateTaskFragment extends Fragment {
             public void onClick(View v) {
 
                 String name = mEditTextName.getText().toString();
+                if (!name.isEmpty()){
+                    UserTask userTask = new UserTask();
+                    userTask.setName(name);
+                    userTask.setCreated_at(new Date());
+                    createNewUserTask(userTask);
+                } else {
+                    Alerts.genericAlert("Atenção", "Informe um nome para esta tarefa", getActivity());
+                }
 
-                UserTask userTask = new UserTask();
-                userTask.setName(name);
-                userTask.setCreated_at(new Date());
-                createNewUserTask(userTask);
             }
         });
 
