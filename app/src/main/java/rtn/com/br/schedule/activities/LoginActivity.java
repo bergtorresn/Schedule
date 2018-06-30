@@ -40,21 +40,29 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = mEditTextEmail.getText().toString();
                 String password = mEditTextPassword.getText().toString();
-                FirebaseService.singIn(email,
-                        password,
-                        LoginActivity.this,
-                        new CallbackAuthResult() {
-                            @Override
-                            public void onCallback(Task<AuthResult> resultTask) {
-                                if (resultTask.isSuccessful()) {
-                                    Log.i("AUTH", "SUCCESS - LOGIN");
-                                    startTaskListActivity();
-                                } else {
-                                    Log.i("AUTH", "ERROR - LOGIN " + resultTask.getException().getMessage());
-                                    Alerts.genericAlert("ERROR", resultTask.getException().getMessage(), LoginActivity.this);
-                                }
-                            }
-                        });
+                if (!email.isEmpty()) {
+                    if (!password.isEmpty()) {
+                        FirebaseService.singIn(email,
+                                password,
+                                LoginActivity.this,
+                                new CallbackAuthResult() {
+                                    @Override
+                                    public void onCallback(Task<AuthResult> resultTask) {
+                                        if (resultTask.isSuccessful()) {
+                                            Log.i("AUTH", "SUCCESS - LOGIN");
+                                            startTaskListActivity();
+                                        } else {
+                                            Log.i("AUTH", "ERROR - LOGIN " + resultTask.getException().getMessage());
+                                            Alerts.genericAlert("ERROR", resultTask.getException().getMessage(), LoginActivity.this);
+                                        }
+                                    }
+                                });
+                    } else {
+                        Alerts.genericAlert("ERROR", "Senha inválido", LoginActivity.this);
+                    }
+                } else {
+                    Alerts.genericAlert("ERROR", "Email inválido", LoginActivity.this);
+                }
             }
         });
     }
