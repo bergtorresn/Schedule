@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import rtn.com.br.schedule.R;
+import rtn.com.br.schedule.firebase.FirebaseService;
 import rtn.com.br.schedule.helpers.DataOutput;
 import rtn.com.br.schedule.models.TaskItem;
 import rtn.com.br.schedule.models.UserTask;
@@ -34,7 +35,6 @@ public class TaskDetailFragment extends Fragment {
     // Propertiers
     private String mArrayStatus[] = {"Não iniciada", "Em andamento", "Cancelada", "Concluída"};
     private Integer mStatusSelected;
-    private UserTask mUserTask;
 
     public TaskDetailFragment() {
         // Required empty public constructor
@@ -87,8 +87,7 @@ public class TaskDetailFragment extends Fragment {
         mButtonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // mUserTask.setStatus(mStatusSelected);
-               // FirebaseService.updateTaskItem(getActivity(), mUserTask);
+                FirebaseService.updateTaskItem(getActivity(), mStatusSelected, mUserTaskUid, mTaskItem.getUid());
             }
         });
 
