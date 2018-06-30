@@ -73,8 +73,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startTaskListActivity() {
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void showProgressBar(){
