@@ -30,7 +30,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_task"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                style="@style/txtView"/>
 
             <EditText
                 android:id="@+id/fragment_createItemTask_edtName"
@@ -44,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_task_description"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                style="@style/txtView"/>
 
             <EditText
                 android:id="@+id/fragment_createItemTask_edtDescription"
@@ -61,7 +63,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_task_priority"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                style="@style/txtView"/>
 
             <RadioGroup
                 android:id="@+id/fragment_createItemTask_radioGrp"
@@ -74,28 +77,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:text="@string/radiobutton_high" />
+                    android:text="@string/radiobutton_high"
+                    style="@style/txtView"/>
 
                 <RadioButton
                     android:id="@+id/fragment_createItemTask_radioBtnAvarage"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:text="@string/radiobutton_average" />
-
+                    android:text="@string/radiobutton_average"
+                    style="@style/txtView"/>
                 <RadioButton
                     android:id="@+id/fragment_createItemTask_radioBtnLow"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:text="@string/radiobutton_low" />
+                    android:text="@string/radiobutton_low"
+                    style="@style/txtView"/>
             </RadioGroup>
 
             <Button
                 android:id="@+id/fragment_createItemTask_btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_save" />
+                android:text="@string/btn_save"
+                style="@style/Widget.AppCompat.Button.Colored"/>
 
         </LinearLayout>
     </ScrollView>

@@ -31,8 +31,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/title_task_name"
+                android:textColor="@color/text_shadow"
+                android:shadowColor="@color/text_shadow_white"
+                android:textStyle="bold"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="28sp"
+                android:layout_marginBottom="24dp"/>
 
             <EditText
                 android:id="@+id/fragment_newtask_edittexttaskname"
@@ -45,7 +49,8 @@
                 android:id="@+id/fragment_newtask_buttonsend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_save" />
+                android:text="@string/btn_save"
+                style="@style/Widget.AppCompat.Button.Colored"/>
 
         </LinearLayout>
     </ScrollView>

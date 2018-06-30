@@ -82,7 +82,9 @@
                 android:id="@+id/fragment_taskdetail_btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_update" />
+                android:text="@string/btn_update"
+                style="@style/Widget.AppCompat.Button.Colored"/>
+
 
         </LinearLayout>
 

@@ -80,7 +80,6 @@ public class TaskItemListFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.fragment_taskitems_recyclerview);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {

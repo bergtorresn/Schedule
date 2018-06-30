@@ -17,4 +17,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="txtView">
+        <item name="android:textColor">@color/text_shadow</item>
+        <item name="android:shadowColor">@color/text_shadow_white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
