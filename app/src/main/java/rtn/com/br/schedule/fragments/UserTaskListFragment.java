@@ -72,7 +72,6 @@ public class UserTaskListFragment extends Fragment {
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -142,8 +141,9 @@ public class UserTaskListFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FirebaseService.singOut();
-                startActivity(new Intent(getActivity(), HomeActivity.class));
                 getActivity().finish();
+                startActivity(new Intent(getActivity(), HomeActivity.class));
+
             }
         });
 

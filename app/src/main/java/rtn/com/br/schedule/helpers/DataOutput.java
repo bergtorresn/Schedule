@@ -20,7 +20,7 @@ public class DataOutput {
                 new SimpleDateFormat("dd/MM/yyyy 'às' HH:mm");
         String dateString = ft.format(date);
 
-        String textFinal = "<b>Data: </b>" + dateString;
+        String textFinal = "<b>Criada em: </b>" + dateString;
         return textFinal;
     }
 

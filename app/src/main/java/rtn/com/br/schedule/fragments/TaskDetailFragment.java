@@ -147,9 +147,9 @@ public class TaskDetailFragment extends Fragment {
                     public void onCallback(Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getContext(), "Tarefa removida com sucesso!", Toast.LENGTH_SHORT).show();
+                            getFragmentManager().popBackStackImmediate();
                         } else {
                             Toast.makeText(getContext(), "Não foi possível remover esta tarefa!", Toast.LENGTH_LONG).show();
-                            getActivity().getSupportFragmentManager().popBackStackImmediate();
                         }
                     }
                 });

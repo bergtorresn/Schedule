@@ -54,7 +54,7 @@ public class CreateTaskFragment extends Fragment {
                     userTask.setCreated_at(new Date());
                     createNewUserTask(userTask);
                 } else {
-                    Alerts.genericAlert("Atenção", "Informe um nome para esta tarefa", getActivity());
+                    Alerts.genericAlert("Atenção", "Informe um nome para esta atividade", getActivity());
                 }
 
             }
@@ -71,7 +71,7 @@ public class CreateTaskFragment extends Fragment {
                     Toast.makeText(getActivity(), "Tarefa criada com sucesso!", Toast.LENGTH_SHORT).show();
                     getFragmentManager().popBackStackImmediate();
                 } else {
-                    Alerts.genericAlert("Atenção", "Não foi possível criar esta tarefa, tente novamente.", getActivity());
+                    Alerts.genericAlert("Atenção", "Não foi possível criar esta atividade, tente novamente.", getActivity());
                 }
             }
         });
