@@ -263,7 +263,9 @@ public class FirebaseService {
     /**
      * Método responsável por editar o status da tarefa
      * @param activity
-     * @param userTask
+     * @param status
+     * @param taskUid
+     * @param taskItemUid
      */
     public static void updateTaskItem(Activity activity, Integer status, String taskUid, String taskItemUid) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
@@ -283,16 +285,17 @@ public class FirebaseService {
     /**
      * Método responsável por deletar a tarefa do nó do usuário
      * @param activity
-     * @param userTask
+     * @param status
+     * @param taskUid
+     * @param taskItemUid
      */
-    public static void deleteTaskItem(Activity activity, Integer status, String taskUid, String taskItemUid) {
+    public static void removeTaskItem(Activity activity, Integer status, String taskUid, String taskItemUid) {
         if (InternetConnection.CheckInternetConnection(activity.getApplicationContext())) {
             GetFirebase.getFireDatabaseReferenceUsers()
                     .child("taskitems")
                     .child(getUser().getUid())
                     .child(taskUid)
                     .child(taskItemUid)
-                    .child("status")
                     .removeValue();
         } else {
             Log.i("INTERNET", "NOT CONECTED");

@@ -1,11 +1,17 @@
 package rtn.com.br.schedule.fragments;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import rtn.com.br.schedule.R;
 import rtn.com.br.schedule.firebase.FirebaseService;
@@ -44,6 +51,23 @@ public class TaskDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_removetask, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.taskdetail_buttonMenu_delete:
+                alertRemoveTask();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -93,6 +117,33 @@ public class TaskDetailFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void alertRemoveTask() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setMessage("Deseja remover essa tarefa?");
+
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseService.removeTaskItem(getActivity(), mStatusSelected, mUserTaskUid, mTaskItem.getUid());
+                Toast.makeText(getContext(), "Tarefa removida com sucesso!", Toast.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
+            }
+        });
+
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("Alert", "Não");
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.create();
+        builder.show();
     }
 
 }
